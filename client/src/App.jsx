@@ -4,6 +4,7 @@ import { AuthProvider } from './context/AuthContext';
 import DashboardLayout from './components/Layout/DashboardLayout';
 import Login from './pages/Auth/Login';
 import UserManagement from './pages/Settings/UserManagement';
+import Home from './pages/Home';
 
 // Placeholder for other routes
 const Placeholder = ({ title }) => (
@@ -18,7 +19,7 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           
           <Route element={<DashboardLayout />}>
