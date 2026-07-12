@@ -121,6 +121,18 @@ exports.completeMaintenance = async (req, res) => {
       await vehicleDoc.save();
     }
 
+    // Auto-create Expense
+    if (actualCost) {
+      const Expense = require('../models/Expense');
+      await Expense.create({
+        vehicle: maintenance.vehicle,
+        category: 'Maintenance',
+        description: `Maintenance: ${maintenance.serviceType} at ${maintenance.workshop}`,
+        amount: actualCost,
+        expenseDate: maintenance.completedDate
+      });
+    }
+
     res.status(200).json({
       success: true,
       message: 'Maintenance Completed',

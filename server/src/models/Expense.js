@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const fuelLogSchema = new mongoose.Schema(
+const expenseSchema = new mongoose.Schema(
   {
     vehicle: {
       type: mongoose.Schema.Types.ObjectId,
@@ -11,28 +11,19 @@ const fuelLogSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Trip'
     },
-    liters: {
+    category: {
+      type: String,
+      enum: ['Toll', 'Maintenance', 'Parking', 'Repair', 'Other'],
+      required: true
+    },
+    description: String,
+    amount: {
       type: Number,
       required: true
     },
-    fuelPrice: {
-      type: Number
-    },
-    cost: {
-      type: Number,
-      required: true
-    },
-    odometer: {
-      type: Number,
-      required: true
-    },
-    filledDate: {
+    expenseDate: {
       type: Date,
       default: Date.now
-    },
-    filledBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
     }
   },
   {
@@ -40,4 +31,4 @@ const fuelLogSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model('FuelLog', fuelLogSchema);
+module.exports = mongoose.model('Expense', expenseSchema);

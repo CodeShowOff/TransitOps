@@ -102,7 +102,7 @@ exports.dispatchTrip = async (req, res) => {
 // Complete a trip
 exports.completeTrip = async (req, res) => {
   try {
-    const { finalOdometer, fuelConsumed, actualDistance, revenue } = req.body;
+    const { finalOdometer, fuelConsumed, fuelPrice, actualDistance, revenue } = req.body;
     const trip = await Trip.findById(req.params.id);
 
     if (!trip) {
@@ -139,13 +139,17 @@ exports.completeTrip = async (req, res) => {
     }
 
     // Automatically create Fuel Log
-    if (fuelConsumed && vehicle) {
+    if (fuelConsumed && fuelPrice && vehicle) {
+      const fuelCost = fuelConsumed * fuelPrice;
       await FuelLog.create({
         vehicle: vehicle._id,
         trip: trip._id,
         liters: fuelConsumed,
-        cost: 0, // Assume standard logic or calculate if cost rate is known
-        date: new Date()
+        fuelPrice: fuelPrice,
+        cost: fuelCost,
+        odometer: vehicle.odometer,
+        filledBy: req.user ? req.user.id : null,
+        filledDate: new Date()
       });
     }
 

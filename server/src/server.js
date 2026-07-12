@@ -8,7 +8,8 @@ const vehicleRoutes = require('./routes/vehicle.routes');
 const driverRoutes = require('./routes/driver.routes');
 const tripRoutes = require('./routes/trip.routes');
 const maintenanceRoutes = require('./routes/maintenance.routes');
-
+const fuelRoutes = require('./routes/fuel.routes');
+const expenseRoutes = require('./routes/expense.routes');
 const app = express();
 
 // Middleware
@@ -21,7 +22,8 @@ app.use('/api/vehicles', vehicleRoutes);
 app.use('/api/drivers', driverRoutes);
 app.use('/api/trips', tripRoutes);
 app.use('/api/maintenance', maintenanceRoutes);
-
+app.use('/api/fuel', fuelRoutes);
+app.use('/api/expenses', expenseRoutes);
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/transitops')
   .then(() => console.log('MongoDB connected'))

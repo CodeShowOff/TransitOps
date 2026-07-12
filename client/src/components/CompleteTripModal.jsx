@@ -6,6 +6,7 @@ const CompleteTripModal = ({ trip, onClose, onComplete }) => {
   const [formData, setFormData] = useState({
     actualDistance: trip.plannedDistance || '',
     fuelConsumed: '',
+    fuelPrice: '',
     revenue: trip.revenue || ''
   });
   const [loading, setLoading] = useState(false);
@@ -53,6 +54,17 @@ const CompleteTripModal = ({ trip, onClose, onComplete }) => {
               name="fuelConsumed"
               className="form-input"
               value={formData.fuelConsumed}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label className="form-label">Fuel Price (per Liter) *</label>
+            <input
+              type="number"
+              name="fuelPrice"
+              className="form-input"
+              value={formData.fuelPrice}
               onChange={handleChange}
               required
             />
