@@ -52,7 +52,11 @@ const seedUsers = async () => {
       }
     ];
 
-    await User.insertMany(users);
+    // Use User.create instead of insertMany to ensure pre('save') hooks are triggered
+    for (const user of users) {
+      await User.create(user);
+    }
+    
     console.log('Data Imported!');
     process.exit();
   } catch (error) {
