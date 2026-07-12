@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, ArrowLeft } from 'lucide-react';
 import useAuth from '../../hooks/useAuth';
 
 const Login = () => {
@@ -10,7 +10,11 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,7 +34,7 @@ const Login = () => {
 
       if (res.data.success) {
         login(res.data.user, res.data.token);
-        navigate('/dashboard');
+        navigate('/dashboard', { replace: true });
       }
     } catch (err) {
       if (err.response?.data?.message) {
@@ -46,6 +50,10 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-card">
+        <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#64748b', textDecoration: 'none', marginBottom: '1.5rem', fontSize: '0.875rem', fontWeight: '500' }}>
+          <ArrowLeft size={16} />
+          Back to Home
+        </Link>
         <div className="login-header">
           <h1>TransitOps</h1>
           <p>Sign in to your account</p>

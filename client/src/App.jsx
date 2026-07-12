@@ -13,6 +13,7 @@ import FuelExpenses from './pages/FuelExpenses';
 import Dashboard from './pages/Dashboard';
 import Analytics from './pages/Analytics';
 import Settings from './pages/Settings/Settings';
+import NotFound from './pages/NotFound';
 
 // Placeholder for other routes
 const Placeholder = ({ title }) => (
@@ -40,6 +41,7 @@ function App() {
             <Route path="/settings" element={<Settings />} />
             <Route path="/users" element={<UserManagement />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
