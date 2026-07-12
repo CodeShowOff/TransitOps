@@ -67,8 +67,10 @@ const CompleteMaintenanceModal = ({ maintenanceId, onClose, onSuccess }) => {
                   name="completedDate"
                   value={formData.completedDate}
                   onChange={handleChange}
+                  onClick={(e) => e.target.showPicker && e.target.showPicker()}
                   required
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 text-sm"
+                  style={{ cursor: 'pointer' }}
                 />
               </div>
 

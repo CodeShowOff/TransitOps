@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createExpense } from '../services/expenseApi';
 import { getVehicles } from '../services/vehicleApi';
 import { getTrips } from '../services/tripApi';
+import SearchableSelect from './SearchableSelect';
 
 const ExpenseForm = ({ onClose, onComplete }) => {
   const [formData, setFormData] = useState({
@@ -62,34 +63,49 @@ const ExpenseForm = ({ onClose, onComplete }) => {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label className="form-label">Vehicle *</label>
-            <select name="vehicle" className="form-input" value={formData.vehicle} onChange={handleChange} required>
-              <option value="">Select Vehicle</option>
-              {Array.isArray(vehicles) && vehicles.map(v => (
-                <option key={v._id} value={v._id}>{v.registrationNumber}</option>
-              ))}
-            </select>
+            <SearchableSelect 
+              name="vehicle"
+              value={formData.vehicle}
+              onChange={handleChange}
+              placeholder="Select Vehicle"
+              options={Array.isArray(vehicles) ? vehicles.map(v => ({
+                value: v._id,
+                label: v.registrationNumber
+              })) : []}
+              required 
+            />
           </div>
           
           <div className="form-group">
             <label className="form-label">Trip (Optional)</label>
-            <select name="trip" className="form-input" value={formData.trip} onChange={handleChange}>
-              <option value="">Select Trip</option>
-              {Array.isArray(trips) && trips.map(t => (
-                <option key={t._id} value={t._id}>{t.tripNumber}</option>
-              ))}
-            </select>
+            <SearchableSelect 
+              name="trip"
+              value={formData.trip}
+              onChange={handleChange}
+              placeholder="Select Trip"
+              options={Array.isArray(trips) ? trips.map(t => ({
+                value: t._id,
+                label: t.tripNumber
+              })) : []}
+            />
           </div>
 
           <div className="form-group">
             <label className="form-label">Expense Category *</label>
-            <select name="category" className="form-input" value={formData.category} onChange={handleChange} required>
-              <option value="">Select Category</option>
-              <option value="Toll">Toll</option>
-              <option value="Maintenance">Maintenance</option>
-              <option value="Parking">Parking</option>
-              <option value="Repair">Repair</option>
-              <option value="Other">Other</option>
-            </select>
+            <SearchableSelect 
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              placeholder="Select Category"
+              options={[
+                { value: "Toll", label: "Toll" },
+                { value: "Maintenance", label: "Maintenance" },
+                { value: "Parking", label: "Parking" },
+                { value: "Repair", label: "Repair" },
+                { value: "Other", label: "Other" }
+              ]}
+              required 
+            />
           </div>
 
           <div className="form-group">

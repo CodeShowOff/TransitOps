@@ -1,0 +1,87 @@
+.recent-trips-container, .vehicle-status-container {
+  background: var(--bg-secondary, #121316);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  border-radius: 6px;
+  padding: 1.25rem;
+  height: 100%;
+}
+
+.recent-trips-container h3, .vehicle-status-container h3 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary, #a1a1aa);
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  padding-bottom: 0.75rem;
+}
+
+/* Recent Trips Table */
+.table-responsive {
+  overflow-x: auto;
+}
+
+.recent-trips-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.recent-trips-table th, .recent-trips-table td {
+  padding: 0.75rem 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.04));
+  font-size: 0.875rem;
+  color: var(--text-primary, #e4e4e7);
+}
+
+.recent-trips-table th {
+  color: var(--text-secondary, #a1a1aa);
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.status-pill {
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-block;
+  text-align: center;
+  min-width: 90px;
+}
+
+/* Vehicle Status Bars */
+.status-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.status-label {
+  width: 80px;
+  font-size: 0.875rem;
+  color: var(--text-primary, #e4e4e7);
+}
+
+.status-bar-bg {
+  flex: 1;
+  height: 12px;
+  background-color: var(--bg-primary, #0a0a0c);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.status-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1s ease-out;
+}

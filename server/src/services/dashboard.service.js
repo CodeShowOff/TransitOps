@@ -24,6 +24,9 @@ const getDashboardKPIs = async (filters = {}) => {
     // vehiclesInShop: status == In Shop
     const vehiclesInShop = await Vehicle.countDocuments({ ...vehicleQuery, status: 'In Shop' });
 
+    // retiredVehicles: status == Retired
+    const retiredVehicles = await Vehicle.countDocuments({ ...vehicleQuery, status: 'Retired' });
+
     // onTripVehicles for utilization
     const onTripVehicles = await Vehicle.countDocuments({ ...vehicleQuery, status: 'On Trip' });
 
@@ -46,6 +49,14 @@ const getDashboardKPIs = async (filters = {}) => {
 
     // pendingTrips: status == Draft
     const pendingTrips = await Trip.countDocuments({ ...tripQuery, status: 'Draft' });
+
+    // recentTrips: latest 5 trips
+    const recentTrips = await Trip.find(tripQuery)
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .populate('vehicle', 'registrationNumber type')
+      .populate('driver', 'name')
+      .lean();
 
     // driversOnDuty: Available + On Trip
     const driversOnDuty = await Driver.countDocuments({ status: { $in: ['Available', 'On Trip'] } });
@@ -114,8 +125,10 @@ const getDashboardKPIs = async (filters = {}) => {
       availableVehicles,
       vehiclesInShop,
       onTripVehicles,
+      retiredVehicles,
       activeTrips,
       pendingTrips,
+      recentTrips,
       driversOnDuty,
       fleetUtilization,
       filteredVehicleCount,

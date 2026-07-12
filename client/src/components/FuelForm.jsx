@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createFuelLog } from '../services/fuelApi';
 import { getVehicles } from '../services/vehicleApi';
 import { getTrips } from '../services/tripApi';
+import SearchableSelect from './SearchableSelect';
 
 const FuelForm = ({ onClose, onComplete }) => {
   const [formData, setFormData] = useState({
@@ -69,22 +70,31 @@ const FuelForm = ({ onClose, onComplete }) => {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label className="form-label">Vehicle *</label>
-            <select name="vehicle" className="form-input" value={formData.vehicle} onChange={handleChange} required>
-              <option value="">Select Vehicle</option>
-              {Array.isArray(vehicles) && vehicles.map(v => (
-                <option key={v._id} value={v._id}>{v.registrationNumber}</option>
-              ))}
-            </select>
+            <SearchableSelect 
+              name="vehicle"
+              value={formData.vehicle}
+              onChange={handleChange}
+              placeholder="Select Vehicle"
+              options={Array.isArray(vehicles) ? vehicles.map(v => ({
+                value: v._id,
+                label: v.registrationNumber
+              })) : []}
+              required 
+            />
           </div>
           
           <div className="form-group">
             <label className="form-label">Trip (Optional)</label>
-            <select name="trip" className="form-input" value={formData.trip} onChange={handleChange}>
-              <option value="">Select Trip</option>
-              {Array.isArray(trips) && trips.map(t => (
-                <option key={t._id} value={t._id}>{t.tripNumber} ({t.source} to {t.destination})</option>
-              ))}
-            </select>
+            <SearchableSelect 
+              name="trip"
+              value={formData.trip}
+              onChange={handleChange}
+              placeholder="Select Trip"
+              options={Array.isArray(trips) ? trips.map(t => ({
+                value: t._id,
+                label: `${t.tripNumber} (${t.source} to ${t.destination})`
+              })) : []}
+            />
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>

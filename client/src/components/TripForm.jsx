@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createTrip } from '../services/tripApi';
 import { getDrivers } from '../services/driverAPI';
 import { getVehicles } from '../services/vehicleApi';
+import SearchableSelect from './SearchableSelect';
 
 const TripForm = ({ onTripCreated }) => {
   const [formData, setFormData] = useState({
@@ -109,25 +110,35 @@ const TripForm = ({ onTripCreated }) => {
         
         <div className="form-group">
           <label className="form-label">Vehicle *</label>
-          <select name="vehicle" className="form-input" value={formData.vehicle} onChange={handleChange} required>
-            <option value="">Select Available Vehicle</option>
-            {Array.isArray(vehicles) && vehicles.filter(v => v.status === 'Available').map(v => (
-              <option key={v._id} value={v._id}>{v.registrationNumber} ({v.maxLoadCapacity}kg)</option>
-            ))}
-          </select>
+          <SearchableSelect 
+            name="vehicle"
+            value={formData.vehicle}
+            onChange={handleChange}
+            placeholder="Select Available Vehicle"
+            options={Array.isArray(vehicles) ? vehicles.filter(v => v.status === 'Available').map(v => ({
+              value: v._id,
+              label: `${v.registrationNumber} (${v.maxLoadCapacity}kg)`
+            })) : []}
+            required
+          />
         </div>
         
         <div className="form-group">
           <label className="form-label">Driver *</label>
-          <select name="driver" className="form-input" value={formData.driver} onChange={handleChange} required>
-            <option value="">Select Available Driver</option>
-            {Array.isArray(drivers) && drivers.filter(d => d.status === 'Available').map(d => (
-              <option key={d._id} value={d._id}>{d.name} ({d.employeeId})</option>
-            ))}
-          </select>
+          <SearchableSelect 
+            name="driver"
+            value={formData.driver}
+            onChange={handleChange}
+            placeholder="Select Available Driver"
+            options={Array.isArray(drivers) ? drivers.filter(d => d.status === 'Available').map(d => ({
+              value: d._id,
+              label: `${d.name} (${d.employeeId})`
+            })) : []}
+            required
+          />
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', alignItems: 'flex-end' }}>
           <div className="form-group">
             <label className="form-label">Cargo Weight (kg) *</label>
             <input type="number" name="cargoWeight" className="form-input" value={formData.cargoWeight} onChange={handleChange} required />

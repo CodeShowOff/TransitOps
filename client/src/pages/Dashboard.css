@@ -194,6 +194,9 @@
   .dashboard-main-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .recent-activity-grid {
+    grid-template-columns: 1fr !important;
+  }
   .grid-item.alerts-sidebar {
     grid-row: auto;
     grid-column: span 2;

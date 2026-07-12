@@ -6,6 +6,8 @@ import RevenueExpenseChart from '../components/Dashboard/Charts/RevenueExpenseCh
 import VehicleTypeChart from '../components/Dashboard/Charts/VehicleTypeChart';
 import FleetUtilizationChart from '../components/Dashboard/Charts/FleetUtilizationChart';
 import Alerts from '../components/Dashboard/Alerts';
+import RecentTrips from '../components/Dashboard/RecentTrips';
+import VehicleStatus from '../components/Dashboard/VehicleStatus';
 import { Truck, CheckCircle, Wrench, Route, Clock, Users, Activity, Map } from 'lucide-react';
 import { getDashboardKPIs } from '../services/dashboardApi';
 import { getChartData } from '../services/analyticsApi';
@@ -124,6 +126,17 @@ const Dashboard = () => {
           <KPICard title="Pending Trips" value={kpis.pendingTrips} icon={<Clock size={20} />} />
           <KPICard title="Drivers on Duty" value={kpis.driversOnDuty} icon={<Users size={20} />} />
           <KPICard title="Fleet Utilization" value={`${kpis.fleetUtilization}%`} icon={<Activity size={20} />} />
+        </div>
+      )}
+
+      {kpis && (
+        <div className="recent-activity-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+          <div className="grid-item">
+            <RecentTrips trips={kpis.recentTrips || []} />
+          </div>
+          <div className="grid-item">
+            <VehicleStatus kpis={kpis} />
+          </div>
         </div>
       )}
 

@@ -113,12 +113,6 @@ const TripBoard = ({ refreshTrigger }) => {
                     </button>
                   </>
                 )}
-                {trip.status === 'Completed' && (
-                  <div style={{ color: 'var(--success)', fontSize: '0.8rem', textAlign: 'center' }}>Finished</div>
-                )}
-                {trip.status === 'Cancelled' && (
-                  <div style={{ color: 'var(--error)', fontSize: '0.8rem', textAlign: 'center' }}>Cancelled</div>
-                )}
               </div>
             </div>
           ))

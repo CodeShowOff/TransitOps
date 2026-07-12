@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
+import SearchableSelect from './SearchableSelect';
 
 const VehicleForm = ({ isOpen, onClose, onSubmit, initialData = null }) => {
   const [formData, setFormData] = useState({
@@ -93,17 +94,18 @@ const VehicleForm = ({ isOpen, onClose, onSubmit, initialData = null }) => {
 
               <div>
                 <label className="form-label">Vehicle Type *</label>
-                <select
+                <SearchableSelect
                   name="type"
                   value={formData.type}
                   onChange={handleChange}
-                  className="form-input"
-                >
-                  <option value="Truck">Truck</option>
-                  <option value="Van">Van</option>
-                  <option value="Mini Truck">Mini Truck</option>
-                  <option value="Pickup">Pickup</option>
-                </select>
+                  placeholder="Select Type"
+                  options={[
+                    { value: "Truck", label: "Truck" },
+                    { value: "Van", label: "Van" },
+                    { value: "Mini Truck", label: "Mini Truck" },
+                    { value: "Pickup", label: "Pickup" }
+                  ]}
+                />
               </div>
 
               <div>
@@ -162,19 +164,20 @@ const VehicleForm = ({ isOpen, onClose, onSubmit, initialData = null }) => {
 
               <div>
                 <label className="form-label">Status</label>
-                <select
-                  name="status"
-                  value={formData.status}
-                  onChange={handleChange}
-                  disabled={isStatusLocked}
-                  className="form-input"
-                  style={{ opacity: isStatusLocked ? 0.5 : 1 }}
-                >
-                  <option value="Available">Available</option>
-                  <option value="Retired">Retired</option>
-                  {initialData?.status === 'On Trip' && <option value="On Trip">On Trip</option>}
-                  {initialData?.status === 'In Shop' && <option value="In Shop">In Shop</option>}
-                </select>
+                <div style={{ opacity: isStatusLocked ? 0.5 : 1, pointerEvents: isStatusLocked ? 'none' : 'auto' }}>
+                  <SearchableSelect
+                    name="status"
+                    value={formData.status}
+                    onChange={handleChange}
+                    placeholder="Select Status"
+                    options={[
+                      { value: "Available", label: "Available" },
+                      { value: "Retired", label: "Retired" },
+                      ...(initialData?.status === 'On Trip' ? [{ value: "On Trip", label: "On Trip" }] : []),
+                      ...(initialData?.status === 'In Shop' ? [{ value: "In Shop", label: "In Shop" }] : [])
+                    ]}
+                  />
+                </div>
                 {isStatusLocked && (
                   <p style={{ marginTop: '4px', fontSize: '12px', color: 'var(--error)' }}>
                     Status locked while On Trip.

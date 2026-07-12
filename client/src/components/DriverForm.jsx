@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, User, Hash, Phone, Mail, MapPin, IdCard, Calendar, ShieldCheck, Settings } from 'lucide-react';
+import SearchableSelect from './SearchableSelect';
 
 const DriverForm = ({ initialData, onSubmit, onCancel }) => {
     const [formData, setFormData] = useState({
@@ -184,17 +185,19 @@ const DriverForm = ({ initialData, onSubmit, onCancel }) => {
 
                             <div className="ai-input-group">
                                 <label className="ai-label">License Category <span style={{ color: 'var(--brand-secondary)' }}>*</span></label>
-                                <select
+                                <SearchableSelect
                                     name="licenseCategory"
                                     value={formData.licenseCategory}
                                     onChange={handleChange}
-                                    className="ai-input ai-select"
-                                >
-                                    <option value="LMV">LMV</option>
-                                    <option value="HMV">HMV</option>
-                                    <option value="MCWG">MCWG</option>
-                                    <option value="Transport">Transport</option>
-                                </select>
+                                    placeholder="Select Category"
+                                    options={[
+                                        { value: "LMV", label: "LMV" },
+                                        { value: "HMV", label: "HMV" },
+                                        { value: "MCWG", label: "MCWG" },
+                                        { value: "Transport", label: "Transport" }
+                                    ]}
+                                    style={{ paddingLeft: '0.75rem' }}
+                                />
                             </div>
 
                             <div className="ai-input-group">
@@ -208,9 +211,10 @@ const DriverForm = ({ initialData, onSubmit, onCancel }) => {
                                         name="licenseExpiry"
                                         value={formData.licenseExpiry}
                                         onChange={handleChange}
+                                        onClick={(e) => e.target.showPicker && e.target.showPicker()}
                                         required
                                         className="ai-input"
-                                        style={{ paddingLeft: '2.5rem', colorScheme: 'dark' }}
+                                        style={{ paddingLeft: '2.5rem', colorScheme: 'dark', cursor: 'pointer' }}
                                     />
                                 </div>
                             </div>
@@ -240,23 +244,23 @@ const DriverForm = ({ initialData, onSubmit, onCancel }) => {
                                     <div style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}>
                                         <Settings size={18} />
                                     </div>
-                                    <select
+                                    <SearchableSelect
                                         name="status"
                                         value={formData.status}
                                         onChange={handleChange}
-                                        disabled={isStatusLocked}
-                                        className="ai-input ai-select"
+                                        placeholder="Select Status"
+                                        options={[
+                                            { value: "Available", label: "Available" },
+                                            { value: "Off Duty", label: "Off Duty" },
+                                            { value: "Suspended", label: "Suspended" },
+                                            ...(initialData?.status === 'On Trip' ? [{ value: "On Trip", label: "On Trip" }] : [])
+                                        ]}
                                         style={{
                                             opacity: isStatusLocked ? 0.6 : 1,
                                             paddingLeft: '2.5rem',
                                             cursor: isStatusLocked ? 'not-allowed' : 'pointer'
                                         }}
-                                    >
-                                        <option value="Available">Available</option>
-                                        <option value="Off Duty">Off Duty</option>
-                                        <option value="Suspended">Suspended</option>
-                                        {initialData?.status === 'On Trip' && <option value="On Trip">On Trip</option>}
-                                    </select>
+                                    />
                                 </div>
                                 {isStatusLocked && (
                                     <div style={{ marginTop: '0.5rem', padding: '0.5rem', background: 'rgba(239, 68, 68, 0.1)', borderRadius: '6px', border: '1px solid rgba(239, 68, 68, 0.2)' }}>

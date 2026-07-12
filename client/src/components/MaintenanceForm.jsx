@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getVehicles } from '../services/vehicleApi';
 import { createMaintenance } from '../services/maintenanceApi';
 import { X } from 'lucide-react';
+import SearchableSelect from './SearchableSelect';
 
 const SERVICE_TYPES = [
   'Oil Change',
@@ -100,20 +101,17 @@ const MaintenanceForm = ({ isOpen, onClose, onSuccess }) => {
               <h4 style={{ color: 'var(--brand-primary)', marginBottom: '0.75rem', fontSize: '0.9rem' }}>Vehicle Information</h4>
               <div style={{ marginBottom: '1rem' }}>
                 <label className="form-label">Vehicle *</label>
-                <select
+                <SearchableSelect
                   name="vehicle"
                   value={formData.vehicle}
                   onChange={handleChange}
+                  placeholder="Select a vehicle"
+                  options={vehicles.map(v => ({
+                    value: v._id,
+                    label: `${v.registrationNumber} - ${v.model}`
+                  }))}
                   required
-                  className="form-input"
-                >
-                  <option value="">Select a vehicle</option>
-                  {vehicles.map(v => (
-                    <option key={v._id} value={v._id}>
-                      {v.registrationNumber} - {v.model}
-                    </option>
-                  ))}
-                </select>
+                />
               </div>
               
               {selectedVehicleDetails && (
@@ -137,18 +135,17 @@ const MaintenanceForm = ({ isOpen, onClose, onSuccess }) => {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
               <div>
                 <label className="form-label">Service Type *</label>
-                <select
+                <SearchableSelect
                   name="serviceType"
                   value={formData.serviceType}
                   onChange={handleChange}
+                  placeholder="Select type"
+                  options={SERVICE_TYPES.map(type => ({
+                    value: type,
+                    label: type
+                  }))}
                   required
-                  className="form-input"
-                >
-                  <option value="">Select type</option>
-                  {SERVICE_TYPES.map(type => (
-                    <option key={type} value={type}>{type}</option>
-                  ))}
-                </select>
+                />
               </div>
 
               <div>
@@ -158,8 +155,10 @@ const MaintenanceForm = ({ isOpen, onClose, onSuccess }) => {
                   name="scheduledDate"
                   value={formData.scheduledDate}
                   onChange={handleChange}
+                  onClick={(e) => e.target.showPicker && e.target.showPicker()}
                   required
                   className="form-input"
+                  style={{ colorScheme: 'dark', cursor: 'pointer' }}
                 />
               </div>
             </div>
