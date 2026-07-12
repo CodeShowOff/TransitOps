@@ -1,34 +1,22 @@
 import React from 'react';
 
 const DriverStatusBadge = ({ status }) => {
-  let color = 'gray';
-  
-  switch (status) {
-    case 'Available':
-      color = 'green';
-      break;
-    case 'On Trip':
-      color = 'blue';
-      break;
-    case 'Off Duty':
-      color = 'gray';
-      break;
-    case 'Suspended':
-      color = 'orange';
-      break;
-    default:
-      color = 'gray';
-  }
+  const getBadgeClass = () => {
+    switch (status) {
+      case 'Available': return 'badge-available';
+      case 'On Trip': return 'badge-ontrip';
+      case 'Off Duty': return 'badge-inshop';
+      case 'Suspended': return 'badge-retired';
+      default: return 'badge-inshop';
+    }
+  };
 
   return (
-    <span style={{ 
-      color: color, 
-      fontWeight: 'bold',
-      padding: '2px 8px',
-      border: `1px solid ${color}`,
-      borderRadius: '4px'
-    }}>
-      {status}
+    <span className={`badge-glow ${getBadgeClass()}`}>
+      <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+        <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'currentColor' }} />
+        {status}
+      </span>
     </span>
   );
 };
