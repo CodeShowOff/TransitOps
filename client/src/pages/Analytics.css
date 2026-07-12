@@ -126,6 +126,8 @@
 .bg-success-light { background: #f0fdf4; border-color: #bbf7d0; }
 .bg-primary-light { background: #eff6ff; border-color: #bfdbfe; }
 .bg-purple-light { background: #faf5ff; border-color: #e9d5ff; }
+.bg-indigo-light { background: #eef2ff; border-color: #c7d2fe; }
+.bg-orange-light { background: #fff7ed; border-color: #fed7aa; }
 
 .text-success { color: #16a34a !important; }
 .text-primary { color: #2563eb !important; }

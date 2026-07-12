@@ -11,8 +11,14 @@ const getAuthHeaders = () => {
   };
 };
 
-export const getAnalyticsMetrics = async () => {
-  const response = await axios.get(API_URL, getAuthHeaders());
+export const getAnalyticsMetrics = async (filters = {}) => {
+  const params = new URLSearchParams();
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value) params.append(key, value);
+  });
+  const queryString = params.toString();
+  const url = queryString ? `${API_URL}?${queryString}` : API_URL;
+  const response = await axios.get(url, getAuthHeaders());
   return response.data;
 };
 

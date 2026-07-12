@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CSVLink } from 'react-csv';
 import jsPDF from 'jspdf';
 import { getAnalyticsMetrics } from '../services/analyticsApi';
@@ -7,11 +7,17 @@ import './Analytics.css';
 const Analytics = () => {
   const [metrics, setMetrics] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState({ dateRange: '', vehicle: '', driver: '', region: '' });
+  const [filters, setFilters] = useState({
+    dateRange: '',
+    vehicleType: '',
+    driverStatus: '',
+    region: ''
+  });
 
   const fetchAnalytics = async () => {
     try {
-      const res = await getAnalyticsMetrics();
+      setLoading(true);
+      const res = await getAnalyticsMetrics(filters);
       if (res.success) {
         setMetrics(res.data);
       }
@@ -24,11 +30,17 @@ const Analytics = () => {
 
   useEffect(() => {
     fetchAnalytics();
-  }, []);
+  }, [filters]);
 
   const handleFilterChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
+
+  const handleClearFilters = () => {
+    setFilters({ dateRange: '', vehicleType: '', driverStatus: '', region: '' });
+  };
+
+  const hasActiveFilters = filters.dateRange || filters.vehicleType || filters.driverStatus || filters.region;
 
   const exportPDF = () => {
     if (!metrics) return;
@@ -44,12 +56,22 @@ const Analytics = () => {
     };
 
     addLine('Fuel Efficiency', `${metrics.fuelEfficiency} km/L`);
+    addLine('Fleet Utilization', `${metrics.fleetUtilization}%`);
     addLine('Total Fuel Cost', `$${metrics.fuelCost}`);
     addLine('Maintenance Cost', `$${metrics.maintenanceCost}`);
     addLine('Other Expenses', `$${metrics.expense}`);
+    addLine('Operational Cost', `$${metrics.operationalCost}`);
     addLine('Total Revenue', `$${metrics.revenue}`);
     addLine('Net Profit', `$${metrics.profit}`);
     addLine('ROI', `${metrics.roi}`);
+
+    // Add applied filters info
+    yPos += 5;
+    doc.setFontSize(10);
+    if (filters.dateRange) addLine('Filter - Date Range', filters.dateRange);
+    if (filters.vehicleType) addLine('Filter - Vehicle Type', filters.vehicleType);
+    if (filters.driverStatus) addLine('Filter - Driver Status', filters.driverStatus);
+    if (filters.region) addLine('Filter - Region', filters.region);
     
     doc.text(`Generated on: ${new Date().toLocaleString()}`, 20, yPos + 10);
     doc.save('analytics-report.pdf');
@@ -58,9 +80,11 @@ const Analytics = () => {
   const csvData = metrics ? [
     ['Metric', 'Value'],
     ['Fuel Efficiency (km/L)', metrics.fuelEfficiency],
+    ['Fleet Utilization (%)', metrics.fleetUtilization],
     ['Total Fuel Cost ($)', metrics.fuelCost],
     ['Maintenance Cost ($)', metrics.maintenanceCost],
     ['Other Expenses ($)', metrics.expense],
+    ['Operational Cost ($)', metrics.operationalCost],
     ['Total Revenue ($)', metrics.revenue],
     ['Net Profit ($)', metrics.profit],
     ['ROI', metrics.roi],
@@ -88,7 +112,18 @@ const Analytics = () => {
       </div>
 
       <div className="filters-section">
-        <h3>Report Filters</h3>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h3>Report Filters</h3>
+          {hasActiveFilters && (
+            <button
+              onClick={handleClearFilters}
+              className="btn-outline"
+              style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }}
+            >
+              ✕ Clear Filters
+            </button>
+          )}
+        </div>
         <div className="filters-grid">
           <div className="form-group">
             <label>Date Range</label>
@@ -96,27 +131,27 @@ const Analytics = () => {
           </div>
           <div className="form-group">
             <label>Vehicle Type</label>
-            <select name="vehicle" value={filters.vehicle} onChange={handleFilterChange} className="form-control">
+            <select name="vehicleType" value={filters.vehicleType} onChange={handleFilterChange} className="form-control">
               <option value="">All Vehicles</option>
               <option value="Truck">Truck</option>
               <option value="Van">Van</option>
+              <option value="Mini Truck">Mini Truck</option>
+              <option value="Pickup">Pickup</option>
             </select>
           </div>
           <div className="form-group">
             <label>Driver Status</label>
-            <select name="driver" value={filters.driver} onChange={handleFilterChange} className="form-control">
+            <select name="driverStatus" value={filters.driverStatus} onChange={handleFilterChange} className="form-control">
               <option value="">All Drivers</option>
               <option value="Available">Available</option>
               <option value="On Trip">On Trip</option>
+              <option value="Off Duty">Off Duty</option>
+              <option value="Suspended">Suspended</option>
             </select>
           </div>
           <div className="form-group">
             <label>Region</label>
-            <select name="region" value={filters.region} onChange={handleFilterChange} className="form-control">
-              <option value="">All Regions</option>
-              <option value="North">North</option>
-              <option value="South">South</option>
-            </select>
+            <input type="text" name="region" placeholder="Enter region" value={filters.region} onChange={handleFilterChange} className="form-control" />
           </div>
         </div>
       </div>
@@ -129,6 +164,10 @@ const Analytics = () => {
               <h4>Fuel Efficiency</h4>
               <p className="val">{metrics.fuelEfficiency} <small>km/L</small></p>
             </div>
+            <div className="metric-box bg-indigo-light">
+              <h4>Fleet Utilization</h4>
+              <p className="val">{metrics.fleetUtilization}<small>%</small></p>
+            </div>
             <div className="metric-box bg-warning-light">
               <h4>Total Fuel Cost</h4>
               <p className="val">${metrics.fuelCost.toLocaleString()}</p>
@@ -140,6 +179,10 @@ const Analytics = () => {
             <div className="metric-box bg-info-light">
               <h4>Other Expenses</h4>
               <p className="val">${metrics.expense.toLocaleString()}</p>
+            </div>
+            <div className="metric-box bg-orange-light">
+              <h4>Operational Cost</h4>
+              <p className="val">${metrics.operationalCost.toLocaleString()}</p>
             </div>
             <div className="metric-box bg-success-light">
               <h4>Total Revenue</h4>
