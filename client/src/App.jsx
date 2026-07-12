@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Fleet from './pages/Fleet';
 import Drivers from './pages/Drivers';
 import Trips from './pages/Trips';
+import Maintenance from './pages/Maintenance';
 
 // Placeholder for other routes
 const Placeholder = ({ title }) => (
@@ -29,7 +30,7 @@ function App() {
             <Route path="/fleet" element={<Fleet />} />
             <Route path="/drivers" element={<Drivers />} />
             <Route path="/trips" element={<Trips />} />
-            <Route path="/maintenance" element={<Placeholder title="Maintenance" />} />
+            <Route path="/maintenance" element={<Maintenance />} />
             <Route path="/fuel" element={<Placeholder title="Fuel & Expenses" />} />
             <Route path="/analytics" element={<Placeholder title="Analytics" />} />
             <Route path="/settings" element={<Placeholder title="Settings" />} />

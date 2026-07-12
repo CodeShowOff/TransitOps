@@ -7,6 +7,7 @@ const authRoutes = require('./routes/authRoutes');
 const vehicleRoutes = require('./routes/vehicle.routes');
 const driverRoutes = require('./routes/driver.routes');
 const tripRoutes = require('./routes/trip.routes');
+const maintenanceRoutes = require('./routes/maintenance.routes');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/vehicles', vehicleRoutes);
 app.use('/api/drivers', driverRoutes);
 app.use('/api/trips', tripRoutes);
+app.use('/api/maintenance', maintenanceRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/transitops')
