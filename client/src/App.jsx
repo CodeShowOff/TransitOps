@@ -12,6 +12,7 @@ import Maintenance from './pages/Maintenance';
 import FuelExpenses from './pages/FuelExpenses';
 import Dashboard from './pages/Dashboard';
 import Analytics from './pages/Analytics';
+import Settings from './pages/Settings/Settings';
 
 // Placeholder for other routes
 const Placeholder = ({ title }) => (
@@ -36,7 +37,7 @@ function App() {
             <Route path="/maintenance" element={<Maintenance />} />
             <Route path="/fuel" element={<FuelExpenses />} />
             <Route path="/analytics" element={<Analytics />} />
-            <Route path="/settings" element={<Placeholder title="Settings" />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="/users" element={<UserManagement />} />
           </Route>
         </Routes>

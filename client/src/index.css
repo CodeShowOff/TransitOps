@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
 
 :root {
+  color-scheme: dark;
   /* Premium Dark Mode Colors */
   --bg-primary: #0a0a0c;
   --bg-secondary: #121316;
@@ -122,6 +123,12 @@ h1, h2, h3, h4, h5, h6 {
   outline: none;
   border-color: var(--brand-primary);
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+/* Ensure calendar icon is visible on dark backgrounds */
+.form-input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
 }
 
 .form-options {

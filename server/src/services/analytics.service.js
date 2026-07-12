@@ -11,12 +11,18 @@ const getAnalyticsMetrics = async () => {
     const fuelCost = fuelRes.length > 0 ? fuelRes[0].totalCost : 0;
     const totalLiters = fuelRes.length > 0 ? fuelRes[0].totalLiters : 0;
 
-    // 2. Total Maintenance Cost
-    const maintRes = await Maintenance.aggregate([{ $group: { _id: null, totalCost: { $sum: '$actualCost' } } }]);
+    // 2. Total Maintenance Cost (Pulled from Expense collection to avoid double-counting since Maintenance auto-creates Expense)
+    const maintRes = await Expense.aggregate([
+      { $match: { category: { $in: ['Maintenance', 'Repair'] } } },
+      { $group: { _id: null, totalCost: { $sum: '$amount' } } }
+    ]);
     const maintenanceCost = maintRes.length > 0 ? maintRes[0].totalCost : 0;
 
-    // 3. Total Expenses
-    const expRes = await Expense.aggregate([{ $group: { _id: null, totalCost: { $sum: '$amount' } } }]);
+    // 3. Total Expenses (Other Expenses excluding Maintenance/Repair)
+    const expRes = await Expense.aggregate([
+      { $match: { category: { $nin: ['Maintenance', 'Repair'] } } },
+      { $group: { _id: null, totalCost: { $sum: '$amount' } } }
+    ]);
     const expense = expRes.length > 0 ? expRes[0].totalCost : 0;
 
     // 4. Total Revenue and Distance

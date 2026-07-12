@@ -61,13 +61,12 @@ const tripSchema = new mongoose.Schema(
 );
 
 // Pre-save hook to auto-generate tripNumber if not provided
-tripSchema.pre('validate', function(next) {
+tripSchema.pre('validate', function() {
   if (!this.tripNumber) {
     const timestamp = Date.now().toString().slice(-6);
     const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
     this.tripNumber = `TRP-${timestamp}-${random}`;
   }
-  next();
 });
 
 module.exports = mongoose.model('Trip', tripSchema);

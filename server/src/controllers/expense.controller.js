@@ -95,13 +95,13 @@ exports.getExpenseSummary = async (req, res) => {
     const fuelCost = fuelCostAggr.length > 0 ? fuelCostAggr[0].total : 0;
 
     const maintenanceCostAggr = await Expense.aggregate([
-      { $match: { category: 'Maintenance' } },
+      { $match: { category: { $in: ['Maintenance', 'Repair'] } } },
       { $group: { _id: null, total: { $sum: '$amount' } } }
     ]);
     const maintenanceCost = maintenanceCostAggr.length > 0 ? maintenanceCostAggr[0].total : 0;
 
     const otherExpensesAggr = await Expense.aggregate([
-      { $match: { category: { $ne: 'Maintenance' } } },
+      { $match: { category: { $nin: ['Maintenance', 'Repair'] } } },
       { $group: { _id: null, total: { $sum: '$amount' } } }
     ]);
     const otherExpenses = otherExpensesAggr.length > 0 ? otherExpensesAggr[0].total : 0;

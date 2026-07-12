@@ -1,0 +1,158 @@
+.settings-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 800px;
+}
+
+.settings-section h3 {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+.settings-card {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.settings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.settings-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.settings-row:first-child {
+  padding-top: 0;
+}
+
+.settings-label {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.settings-value {
+  color: var(--text-secondary);
+}
+
+.theme-toggle {
+  display: flex;
+  gap: 1rem;
+}
+
+.theme-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: var(--bg-color);
+  cursor: pointer;
+  position: relative;
+}
+
+.theme-btn.active {
+  border-color: var(--primary-color);
+  background-color: rgba(37, 99, 235, 0.05);
+  color: var(--primary-color);
+}
+
+.theme-btn.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.coming-soon {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: 0.6rem;
+  background-color: var(--warning-color);
+  color: white;
+  padding: 0.2rem 0.4rem;
+  border-radius: var(--radius-sm);
+  font-weight: bold;
+}
+
+.about-card {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.about-card h4 {
+  font-size: 1.25rem;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.hackathon-badge {
+  background-color: var(--success-color);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.built-with {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.tech-stack {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tech-badge {
+  background-color: var(--border-color);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  color: var(--text-primary);
+}
+
+.quick-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.quick-actions button {
+  flex: 1;
+  min-width: 150px;
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+}
