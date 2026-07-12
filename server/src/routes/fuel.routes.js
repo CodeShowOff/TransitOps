@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.use(protect);
 
-router.get('/', authorize('Fleet Manager', 'Financial Analyst'), getFuelLogs);
+router.get('/', authorize('Fleet Manager', 'Financial Analyst', 'Dispatcher', 'Safety Officer'), getFuelLogs);
 router.post('/', authorize('Fleet Manager', 'Dispatcher'), createFuelLog);
 router.delete('/:id', authorize('Fleet Manager'), deleteFuelLog);
 

@@ -16,11 +16,11 @@ const { authorize } = require('../middlewares/roleMiddleware');
 router.use(protect);
 
 router.route('/')
-  .get(getMaintenances)
+  .get(authorize('Fleet Manager', 'Dispatcher', 'Safety Officer', 'Financial Analyst'), getMaintenances)
   .post(authorize('Fleet Manager'), createMaintenance); // Adjust roles as needed based on RBAC
 
 router.route('/:id')
-  .get(getMaintenanceById)
+  .get(authorize('Fleet Manager', 'Dispatcher', 'Safety Officer', 'Financial Analyst'), getMaintenanceById)
   .delete(authorize('Fleet Manager'), deleteMaintenance);
 
 router.route('/:id/complete')

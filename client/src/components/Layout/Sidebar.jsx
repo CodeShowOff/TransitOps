@@ -17,14 +17,14 @@ const Sidebar = () => {
 
   const links = [
     { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard, roles: ['Fleet Manager', 'Dispatcher', 'Safety Officer', 'Financial Analyst'] },
-    { name: 'Fleet', path: '/fleet', icon: Truck, roles: ['Fleet Manager', 'Dispatcher'] },
-    { name: 'Drivers', path: '/drivers', icon: Users, roles: ['Fleet Manager', 'Dispatcher', 'Safety Officer'] },
-    { name: 'Trips', path: '/trips', icon: Map, roles: ['Fleet Manager', 'Dispatcher', 'Safety Officer'] },
-    { name: 'Maintenance', path: '/maintenance', icon: Wrench, roles: ['Fleet Manager'] },
-    { name: 'Fuel & Expenses', path: '/fuel', icon: Fuel, roles: ['Fleet Manager', 'Financial Analyst'] },
+    { name: 'Fleet', path: '/fleet', icon: Truck, roles: ['Fleet Manager', 'Dispatcher', 'Safety Officer', 'Financial Analyst'] },
+    { name: 'Drivers', path: '/drivers', icon: Users, roles: ['Fleet Manager', 'Dispatcher', 'Safety Officer', 'Financial Analyst'] },
+    { name: 'Trips', path: '/trips', icon: Map, roles: ['Fleet Manager', 'Dispatcher', 'Safety Officer', 'Financial Analyst'] },
+    { name: 'Maintenance', path: '/maintenance', icon: Wrench, roles: ['Fleet Manager', 'Dispatcher', 'Safety Officer', 'Financial Analyst'] },
+    { name: 'Fuel & Expenses', path: '/fuel', icon: Fuel, roles: ['Fleet Manager', 'Dispatcher', 'Financial Analyst'] },
     { name: 'Analytics', path: '/analytics', icon: BarChart3, roles: ['Fleet Manager', 'Financial Analyst'] },
     { name: 'User Management', path: '/users', icon: UserPlus, roles: ['Fleet Manager'] },
-    { name: 'Settings', path: '/settings', icon: Settings, roles: ['Fleet Manager'] },
+    { name: 'Settings', path: '/settings', icon: Settings, roles: ['Fleet Manager', 'Dispatcher', 'Safety Officer', 'Financial Analyst'] },
   ];
 
   return (

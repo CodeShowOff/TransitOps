@@ -7,21 +7,21 @@ const { authorize } = require('../middlewares/roleMiddleware');
 router.use(protect);
 
 // GET /api/trips
-router.get('/', authorize('Fleet Manager', 'Dispatcher', 'Safety Officer'), tripController.getTrips);
+router.get('/', authorize('Fleet Manager', 'Dispatcher', 'Safety Officer', 'Financial Analyst'), tripController.getTrips);
 
 // POST /api/trips
-router.post('/', authorize('Fleet Manager', 'Dispatcher'), tripController.createTrip);
+router.post('/', authorize('Dispatcher'), tripController.createTrip);
 
 // PATCH /api/trips/:id/dispatch
-router.patch('/:id/dispatch', authorize('Fleet Manager', 'Dispatcher'), tripController.dispatchTrip);
+router.patch('/:id/dispatch', authorize('Dispatcher'), tripController.dispatchTrip);
 
 // PATCH /api/trips/:id/complete
-router.patch('/:id/complete', authorize('Fleet Manager', 'Dispatcher'), tripController.completeTrip);
+router.patch('/:id/complete', authorize('Dispatcher'), tripController.completeTrip);
 
 // PATCH /api/trips/:id/cancel
-router.patch('/:id/cancel', authorize('Fleet Manager', 'Dispatcher'), tripController.cancelTrip);
+router.patch('/:id/cancel', authorize('Dispatcher'), tripController.cancelTrip);
 
 // DELETE /api/trips/:id
-router.delete('/:id', authorize('Fleet Manager', 'Dispatcher'), tripController.deleteDraft);
+router.delete('/:id', authorize('Dispatcher'), tripController.deleteDraft);
 
 module.exports = router;

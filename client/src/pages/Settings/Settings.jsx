@@ -15,9 +15,9 @@ const Settings = () => {
 
   const rbacData = [
     { role: 'Fleet Manager', fleet: '✓', drivers: '✓', trips: '✓', fuel: '✓', analytics: '✓' },
-    { role: 'Dispatcher', fleet: 'View', drivers: 'View', trips: '✓', fuel: '-', analytics: '-' },
+    { role: 'Dispatcher', fleet: 'View', drivers: 'View', trips: '✓', fuel: '✓', analytics: '-' },
     { role: 'Safety Officer', fleet: 'View', drivers: '✓', trips: 'View', fuel: '-', analytics: '-' },
-    { role: 'Financial Analyst', fleet: 'View', drivers: '-', trips: 'View', fuel: '✓', analytics: '✓' }
+    { role: 'Financial Analyst', fleet: 'View', drivers: 'View', trips: 'View', fuel: 'View', analytics: '✓' }
   ];
 
   return (
@@ -52,63 +52,67 @@ const Settings = () => {
         </div>
 
         {/* Section 2: Company Information */}
-        <div className="settings-section">
-          <h3>Company Information</h3>
-          <div className="settings-card">
-            <div className="settings-row">
-              <span className="settings-label">Company Name</span>
-              <span className="settings-value">TransitOps Logistics</span>
-            </div>
-            <div className="settings-row">
-              <span className="settings-label">Fleet Size</span>
-              <span className="settings-value">25 Vehicles</span>
-            </div>
-            <div className="settings-row">
-              <span className="settings-label">Current Version</span>
-              <span className="settings-value">v1.0</span>
+        {user?.role === 'Fleet Manager' && (
+          <div className="settings-section">
+            <h3>Company Information</h3>
+            <div className="settings-card">
+              <div className="settings-row">
+                <span className="settings-label">Company Name</span>
+                <span className="settings-value">TransitOps Logistics</span>
+              </div>
+              <div className="settings-row">
+                <span className="settings-label">Fleet Size</span>
+                <span className="settings-value">25 Vehicles</span>
+              </div>
+              <div className="settings-row">
+                <span className="settings-label">Current Version</span>
+                <span className="settings-value">v1.0</span>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Bottom Row: General & RBAC */}
         <div className="settings-bottom-row">
           {/* Section 4: General Operations Settings */}
-          <div className="settings-section">
-            <h3>General Operations</h3>
-            <div className="settings-card form-layout">
-              <div className="form-group">
-                <label>DEPOT NAME</label>
-                <input 
-                  type="text" 
-                  className="form-input" 
-                  value={depotName} 
-                  onChange={(e) => setDepotName(e.target.value)} 
-                />
-              </div>
-              
-              <div className="form-group">
-                <label>CURRENCY</label>
-                <input 
-                  type="text" 
-                  className="form-input" 
-                  value={currency} 
-                  onChange={(e) => setCurrency(e.target.value)} 
-                />
-              </div>
-              
-              <div className="form-group">
-                <label>DISTANCE UNIT</label>
-                <input 
-                  type="text" 
-                  className="form-input" 
-                  value={distanceUnit} 
-                  onChange={(e) => setDistanceUnit(e.target.value)} 
-                />
-              </div>
+          {user?.role === 'Fleet Manager' && (
+            <div className="settings-section">
+              <h3>General Operations</h3>
+              <div className="settings-card form-layout">
+                <div className="form-group">
+                  <label>DEPOT NAME</label>
+                  <input 
+                    type="text" 
+                    className="form-input" 
+                    value={depotName} 
+                    onChange={(e) => setDepotName(e.target.value)} 
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label>CURRENCY</label>
+                  <input 
+                    type="text" 
+                    className="form-input" 
+                    value={currency} 
+                    onChange={(e) => setCurrency(e.target.value)} 
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label>DISTANCE UNIT</label>
+                  <input 
+                    type="text" 
+                    className="form-input" 
+                    value={distanceUnit} 
+                    onChange={(e) => setDistanceUnit(e.target.value)} 
+                  />
+                </div>
 
-              <button className="save-btn" onClick={handleSave}>Save changes</button>
+                <button className="save-btn" onClick={handleSave}>Save changes</button>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Section 5: Role-Based Access (RBAC) */}
           <div className="settings-section">

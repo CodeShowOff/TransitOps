@@ -13,9 +13,9 @@ const router = express.Router();
 
 router.use(protect);
 
-// Read operations - Fleet Manager, Dispatcher
-router.get('/', authorize('Fleet Manager', 'Dispatcher'), getVehicles);
-router.get('/:id', authorize('Fleet Manager', 'Dispatcher'), getVehicleById);
+// Read operations - Fleet Manager, Dispatcher, Safety Officer, Financial Analyst
+router.get('/', authorize('Fleet Manager', 'Dispatcher', 'Safety Officer', 'Financial Analyst'), getVehicles);
+router.get('/:id', authorize('Fleet Manager', 'Dispatcher', 'Safety Officer', 'Financial Analyst'), getVehicleById);
 
 // Write operations - Fleet Manager only
 router.post('/', authorize('Fleet Manager'), createVehicle);

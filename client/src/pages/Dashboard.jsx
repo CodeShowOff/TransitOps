@@ -25,11 +25,19 @@ const Dashboard = () => {
 
   const fetchDashboardData = useCallback(async () => {
     try {
-      const kpiRes = await getDashboardKPIs(filters);
-      const chartRes = await getChartData();
+      try {
+        const kpiRes = await getDashboardKPIs(filters);
+        if (kpiRes.success) setKpis(kpiRes.data);
+      } catch (kpiError) {
+        console.error('Error fetching dashboard KPIs', kpiError);
+      }
       
-      if (kpiRes.success) setKpis(kpiRes.data);
-      if (chartRes.success) setChartData(chartRes.data);
+      try {
+        const chartRes = await getChartData();
+        if (chartRes.success) setChartData(chartRes.data);
+      } catch (chartError) {
+        console.warn('Could not fetch chart data (likely unauthorized)', chartError.message);
+      }
     } catch (error) {
       console.error('Error fetching dashboard data', error);
     } finally {
@@ -57,7 +65,7 @@ const Dashboard = () => {
 
   const hasActiveFilters = filters.type || filters.status || filters.region;
 
-  if (loading && (!kpis || !chartData)) return <div className="loading-screen">Loading Dashboard...</div>;
+  if (loading && !kpis) return <div className="loading-screen">Loading Dashboard...</div>;
 
   return (
     <div className="dashboard-page fade-in">

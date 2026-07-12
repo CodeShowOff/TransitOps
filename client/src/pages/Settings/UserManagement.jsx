@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Plus, Search, Edit2, Trash2, X, Shield, Mail, Phone, Calendar, Loader } from 'lucide-react';
+import { Plus, Search, Edit2, Trash2, X, Shield, Mail, Phone, Calendar, Loader, AlertCircle, CheckCircle, Edit, PowerOff, Power } from 'lucide-react';
 import { API_BASE_URL } from '../../config';
 import useAuth from '../../hooks/useAuth';
 import { Navigate } from 'react-router-dom';

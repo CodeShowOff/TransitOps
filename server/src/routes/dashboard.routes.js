@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.use(protect);
 
-// Fleet Manager, Financial Analyst, and Safety Officer can view Dashboard
-router.get('/', authorize('Fleet Manager', 'Financial Analyst', 'Safety Officer'), getDashboard);
+// Fleet Manager, Financial Analyst, Safety Officer, and Dispatcher can view Dashboard
+router.get('/', authorize('Fleet Manager', 'Financial Analyst', 'Safety Officer', 'Dispatcher'), getDashboard);
 
 module.exports = router;
