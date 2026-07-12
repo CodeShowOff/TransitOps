@@ -11,13 +11,15 @@ const { authorize } = require('../middlewares/roleMiddleware');
 
 const router = express.Router();
 
-// Read operations - all authenticated users
-router.get('/', protect, getVehicles);
-router.get('/:id', protect, getVehicleById);
+router.use(protect);
+
+// Read operations - Fleet Manager, Dispatcher
+router.get('/', authorize('Fleet Manager', 'Dispatcher'), getVehicles);
+router.get('/:id', authorize('Fleet Manager', 'Dispatcher'), getVehicleById);
 
 // Write operations - Fleet Manager only
-router.post('/', protect, authorize('Fleet Manager'), createVehicle);
-router.put('/:id', protect, authorize('Fleet Manager'), updateVehicle);
-router.delete('/:id', protect, authorize('Fleet Manager'), deleteVehicle);
+router.post('/', authorize('Fleet Manager'), createVehicle);
+router.put('/:id', authorize('Fleet Manager'), updateVehicle);
+router.delete('/:id', authorize('Fleet Manager'), deleteVehicle);
 
 module.exports = router;
