@@ -3,6 +3,7 @@ import { useNavigate, Navigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { AlertCircle, ArrowLeft } from 'lucide-react';
 import useAuth from '../../hooks/useAuth';
+import { API_BASE_URL } from '../../config';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -27,7 +28,7 @@ const Login = () => {
 
     try {
       setLoading(true);
-      const res = await axios.post('http://localhost:5000/api/auth/login', {
+      const res = await axios.post(`${API_BASE_URL}/auth/login`, {
         email,
         password
       });
@@ -48,7 +49,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="login-container" style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', padding: '2rem' }}>
       <div className="login-card">
         <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#64748b', textDecoration: 'none', marginBottom: '1.5rem', fontSize: '0.875rem', fontWeight: '500' }}>
           <ArrowLeft size={16} />
@@ -93,16 +94,37 @@ const Login = () => {
 
           <div className="form-options">
             <label className="checkbox-label">
-              <input type="checkbox" />
+              <input type="checkbox" onChange={() => alert('Remember Me feature is upcoming!')} />
               Remember Me
             </label>
-            <a href="#" className="forgot-link">Forgot Password?</a>
+            <a href="#" className="forgot-link" onClick={(e) => { e.preventDefault(); alert('Forgot Password feature is upcoming!'); }}>Forgot Password?</a>
           </div>
 
           <button type="submit" className="btn-primary" disabled={loading}>
             {loading ? 'Signing In...' : 'Sign In'}
           </button>
         </form>
+      </div>
+
+      <div className="login-card" style={{ margin: '0', animationDelay: '0.1s', display: 'flex', flexDirection: 'column' }}>
+        <h3 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '1rem', color: '#f8fafc' }}>Testing Credentials</h3>
+        <p style={{ color: '#94a3b8', marginBottom: '2rem', lineHeight: '1.5', fontSize: '0.9rem' }}>
+          <strong>Note:</strong> Users are created by admins (the Fleet Manager) only. Employees can log in using the ID and passwords provided by the manager.
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', color: '#f1f5f9', fontSize: '0.9rem', flexGrow: 1 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', paddingBottom: '0.75rem' }}>
+            <span style={{ color: '#94a3b8' }}>Fleet Manager:</span> <strong style={{textAlign: 'right'}}>fleet@transitops.com <br/> Fleet@123</strong>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', paddingBottom: '0.75rem' }}>
+            <span style={{ color: '#94a3b8' }}>Dispatcher:</span> <strong style={{textAlign: 'right'}}>dispatch@transitops.com <br/> Dispatch@123</strong>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', paddingBottom: '0.75rem' }}>
+            <span style={{ color: '#94a3b8' }}>Safety Officer:</span> <strong style={{textAlign: 'right'}}>safety@transitops.com <br/> Safety@123</strong>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <span style={{ color: '#94a3b8' }}>Financial Analyst:</span> <strong style={{textAlign: 'right'}}>finance@transitops.com <br/> Finance@123</strong>
+          </div>
+        </div>
       </div>
     </div>
   );

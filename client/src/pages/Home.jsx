@@ -8,6 +8,7 @@ import {
   Sparkles, RefreshCw, Layers
 } from 'lucide-react';
 import useAuth from '../hooks/useAuth';
+import { API_BASE_URL } from '../config';
 
 const Home = () => {
   const { isAuthenticated, role, login } = useAuth();
@@ -72,7 +73,7 @@ const Home = () => {
     setLoginError('');
     setLoginLoading(account.role);
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', {
+      const res = await axios.post(`${API_BASE_URL}/auth/login`, {
         email: account.email,
         password: account.password
       });

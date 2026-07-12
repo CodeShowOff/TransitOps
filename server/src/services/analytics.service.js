@@ -93,7 +93,7 @@ const getAnalyticsMetrics = async (filters = {}) => {
     const expense = expRes.length > 0 ? expRes[0].totalCost : 0;
 
     // --- Trips: Revenue and Distance ---
-    const tripMatch = {};
+    const tripMatch = { status: 'Completed' };
     if (vehicleIdFilter) tripMatch.vehicle = { $in: vehicleIdFilter };
     if (hasDateFilter) tripMatch.completedDate = dateFilter;
     // Driver filter
@@ -109,17 +109,19 @@ const getAnalyticsMetrics = async (filters = {}) => {
         $group: {
           _id: null,
           totalRevenue: { $sum: '$revenue' },
-          totalDistance: { $sum: '$actualDistance' }
+          totalDistance: { $sum: '$actualDistance' },
+          totalFuelConsumed: { $sum: '$fuelConsumed' }
         }
       }
     ]);
     const revenue = tripRes.length > 0 ? tripRes[0].totalRevenue : 0;
     const totalDistance = tripRes.length > 0 ? tripRes[0].totalDistance : 0;
 
-    // --- Fuel Efficiency ---
+    // --- Fuel Efficiency (uses fuelConsumed from completed trips to match actualDistance) ---
+    const totalFuelConsumed = tripRes.length > 0 ? tripRes[0].totalFuelConsumed : 0;
     let fuelEfficiency = 0;
-    if (totalLiters > 0) {
-      fuelEfficiency = Number((totalDistance / totalLiters).toFixed(2));
+    if (totalFuelConsumed > 0) {
+      fuelEfficiency = Number((totalDistance / totalFuelConsumed).toFixed(2));
     }
 
     // --- Operational Cost ---
@@ -156,6 +158,7 @@ const getAnalyticsMetrics = async (filters = {}) => {
 
     // --- Monthly Revenue ---
     const monthlyRevenueMatch = { ...tripMatch };
+    delete monthlyRevenueMatch.completedDate; // Show all months even if date filter is active
     const monthlyRevenueRes = await Trip.aggregate([
       { $match: monthlyRevenueMatch },
       {

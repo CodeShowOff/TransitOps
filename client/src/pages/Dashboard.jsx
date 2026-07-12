@@ -57,7 +57,7 @@ const Dashboard = () => {
 
   const hasActiveFilters = filters.type || filters.status || filters.region;
 
-  if (loading) return <div className="loading-screen">Loading Dashboard...</div>;
+  if (loading && (!kpis || !chartData)) return <div className="loading-screen">Loading Dashboard...</div>;
 
   return (
     <div className="dashboard-page fade-in">

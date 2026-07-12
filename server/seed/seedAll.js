@@ -113,7 +113,9 @@ const seedData = async () => {
       { vehicle: vehicles[1]._id, trip: trips[0]._id, category: 'Toll', description: 'Mumbai-Pune Expressway Toll', amount: 320, expenseDate: trips[0].dispatchDate },
       { vehicle: vehicles[1]._id, trip: trips[0]._id, category: 'Parking', description: 'Parking at Pune delivery hub', amount: 150, expenseDate: trips[0].completedDate },
       { vehicle: vehicles[4]._id, trip: trips[3]._id, category: 'Toll', description: 'NE1 Expressway Toll', amount: 450, expenseDate: trips[3].dispatchDate },
-      { vehicle: vehicles[3]._id, category: 'Repair', description: 'Brake pad replacement', amount: 2500, expenseDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000) }
+      { vehicle: vehicles[3]._id, category: 'Repair', description: 'Brake pad replacement', amount: 2500, expenseDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000) },
+      // Auto-created expense for completed maintenance
+      { vehicle: vehicles[0]._id, category: 'Maintenance', description: 'Maintenance: Oil Change at Local Garage', amount: 2200, expenseDate: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000) }
     ];
     await Expense.insertMany(expensesData);
     console.log('Expenses seeded');

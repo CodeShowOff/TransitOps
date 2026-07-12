@@ -46,7 +46,7 @@ const MaintenanceTable = ({ data, onComplete, onDelete }) => {
                   )}
                 </td>
                 <td>
-                  ${record.estimatedCost || 0} / <span style={{ fontWeight: record.actualCost ? 600 : 400 }}>${record.actualCost || 0}</span>
+                  ₹{record.estimatedCost || 0} / <span style={{ fontWeight: record.actualCost ? 600 : 400 }}>₹{record.actualCost || 0}</span>
                 </td>
                 <td>
                   <MaintenanceStatusBadge status={record.status} />

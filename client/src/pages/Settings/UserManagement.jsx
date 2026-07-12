@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { AlertCircle, CheckCircle, Edit, Power, PowerOff, X } from 'lucide-react';
+import { Plus, Search, Edit2, Trash2, X, Shield, Mail, Phone, Calendar, Loader } from 'lucide-react';
+import { API_BASE_URL } from '../../config';
 import useAuth from '../../hooks/useAuth';
 import { Navigate } from 'react-router-dom';
 import './UserManagement.css';
@@ -38,7 +39,7 @@ const UserManagement = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const res = await axios.get('http://localhost:5000/api/users', {
+      const res = await axios.get(`${API_BASE_URL}/users`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.data.success) {
@@ -114,7 +115,7 @@ const UserManagement = () => {
     try {
       setLoading(true);
       if (modalMode === 'create') {
-        const res = await axios.post('http://localhost:5000/api/users', formData, {
+        const res = await axios.post(`${API_BASE_URL}/users`, formData, {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (res.data.success) {
@@ -130,7 +131,7 @@ const UserManagement = () => {
           role: formData.role,
           status: formData.status
         };
-        const res = await axios.put(`http://localhost:5000/api/users/${editingId}`, updateData, {
+        const res = await axios.put(`${API_BASE_URL}/users/${editingId}`, updateData, {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (res.data.success) {
@@ -154,7 +155,7 @@ const UserManagement = () => {
 
     try {
       const newStatus = currentStatus === 'Active' ? 'Inactive' : 'Active';
-      const res = await axios.patch(`http://localhost:5000/api/users/${userId}/status`, { status: newStatus }, {
+      const res = await axios.patch(`${API_BASE_URL}/users/${userId}/status`, { status: newStatus }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.data.success) {
