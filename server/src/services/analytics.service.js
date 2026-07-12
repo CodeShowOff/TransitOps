@@ -22,17 +22,46 @@ const getAnalyticsMetrics = async (filters = {}) => {
     // Build date filter
     let dateFilter = {};
     if (filters.dateRange) {
-      // dateRange is expected as "YYYY-MM" (month input)
-      const [year, month] = filters.dateRange.split('-').map(Number);
-      const startDate = new Date(year, month - 1, 1);
-      const endDate = new Date(year, month, 0, 23, 59, 59);
-      dateFilter = { $gte: startDate, $lte: endDate };
+      const now = new Date();
+      if (filters.dateRange === 'today') {
+        const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+        dateFilter = { $gte: start, $lte: end };
+      } else if (filters.dateRange === '7d') {
+        const start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 6);
+        const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+        dateFilter = { $gte: start, $lte: end };
+      } else if (filters.dateRange === '30d') {
+        const start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 29);
+        const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+        dateFilter = { $gte: start, $lte: end };
+      } else if (filters.dateRange === 'this_month') {
+        const start = new Date(now.getFullYear(), now.getMonth(), 1);
+        const end = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+        dateFilter = { $gte: start, $lte: end };
+      } else if (filters.dateRange === 'last_month') {
+        const start = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        const end = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999);
+        dateFilter = { $gte: start, $lte: end };
+      } else if (filters.dateRange === 'this_year') {
+        const start = new Date(now.getFullYear(), 0, 1);
+        const end = new Date(now.getFullYear(), 11, 31, 23, 59, 59, 999);
+        dateFilter = { $gte: start, $lte: end };
+      } else if (filters.dateRange.includes('-')) {
+        // Fallback for legacy "YYYY-MM" format
+        const [year, month] = filters.dateRange.split('-').map(Number);
+        const startDate = new Date(year, month - 1, 1);
+        const endDate = new Date(year, month, 0, 23, 59, 59, 999);
+        dateFilter = { $gte: startDate, $lte: endDate };
+      }
     }
+
+    const hasDateFilter = Object.keys(dateFilter).length > 0;
 
     // --- Fuel aggregation ---
     const fuelMatch = {};
     if (vehicleIdFilter) fuelMatch.vehicle = { $in: vehicleIdFilter };
-    if (filters.dateRange) fuelMatch.filledDate = dateFilter;
+    if (hasDateFilter) fuelMatch.filledDate = dateFilter;
 
     const fuelRes = await FuelLog.aggregate([
       { $match: fuelMatch },
@@ -44,7 +73,7 @@ const getAnalyticsMetrics = async (filters = {}) => {
     // --- Maintenance Cost (from Expense collection) ---
     const maintExpenseMatch = { category: { $in: ['Maintenance', 'Repair'] } };
     if (vehicleIdFilter) maintExpenseMatch.vehicle = { $in: vehicleIdFilter };
-    if (filters.dateRange) maintExpenseMatch.expenseDate = dateFilter;
+    if (hasDateFilter) maintExpenseMatch.expenseDate = dateFilter;
 
     const maintRes = await Expense.aggregate([
       { $match: maintExpenseMatch },
@@ -55,7 +84,7 @@ const getAnalyticsMetrics = async (filters = {}) => {
     // --- Other Expenses ---
     const expenseMatch = { category: { $nin: ['Maintenance', 'Repair'] } };
     if (vehicleIdFilter) expenseMatch.vehicle = { $in: vehicleIdFilter };
-    if (filters.dateRange) expenseMatch.expenseDate = dateFilter;
+    if (hasDateFilter) expenseMatch.expenseDate = dateFilter;
 
     const expRes = await Expense.aggregate([
       { $match: expenseMatch },
@@ -66,7 +95,7 @@ const getAnalyticsMetrics = async (filters = {}) => {
     // --- Trips: Revenue and Distance ---
     const tripMatch = {};
     if (vehicleIdFilter) tripMatch.vehicle = { $in: vehicleIdFilter };
-    if (filters.dateRange) tripMatch.completedDate = dateFilter;
+    if (hasDateFilter) tripMatch.completedDate = dateFilter;
     // Driver filter
     if (filters.driverStatus) {
       const matchingDrivers = await Driver.find({ status: filters.driverStatus }).select('_id').lean();

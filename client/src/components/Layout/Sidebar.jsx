@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, Truck, Users, Map, Wrench, 
   Fuel, BarChart3, Settings, UserPlus, LogOut
@@ -23,14 +23,17 @@ const Sidebar = () => {
     { name: 'Maintenance', path: '/maintenance', icon: Wrench, roles: ['Fleet Manager'] },
     { name: 'Fuel & Expenses', path: '/fuel', icon: Fuel, roles: ['Fleet Manager', 'Financial Analyst'] },
     { name: 'Analytics', path: '/analytics', icon: BarChart3, roles: ['Fleet Manager', 'Financial Analyst'] },
-    { name: 'Settings', path: '/settings', icon: Settings, roles: ['Fleet Manager'] },
     { name: 'User Management', path: '/users', icon: UserPlus, roles: ['Fleet Manager'] },
+    { name: 'Settings', path: '/settings', icon: Settings, roles: ['Fleet Manager'] },
   ];
 
   return (
     <div className="sidebar">
       <div className="sidebar-header">
-        <h2>TransitOps</h2>
+        <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <img src="/favicon.svg" alt="TransitOps Logo" style={{ width: '28px', height: '28px' }} />
+          <h2>TransitOps</h2>
+        </Link>
         <span className="role-badge">{role}</span>
       </div>
       <nav className="sidebar-nav">

@@ -13,6 +13,12 @@ const UserManagement = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   
+  const [filters, setFilters] = useState({
+    search: '',
+    role: '',
+    status: ''
+  });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState('create'); // 'create' or 'edit'
   
@@ -52,6 +58,23 @@ const UserManagement = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleClearFilters = () => {
+    setFilters({ search: '', role: '', status: '' });
+  };
+
+  const filteredUsers = users.filter(user => {
+    const matchSearch = user.name.toLowerCase().includes(filters.search.toLowerCase()) || 
+                        user.email.toLowerCase().includes(filters.search.toLowerCase());
+    const matchRole = filters.role ? user.role === filters.role : true;
+    const matchStatus = filters.status ? user.status === filters.status : true;
+    return matchSearch && matchRole && matchStatus;
+  });
 
   const openCreateModal = () => {
     setModalMode('create');
@@ -146,7 +169,47 @@ const UserManagement = () => {
     <div className="page-container">
       <div className="header-actions">
         <h1>User Management</h1>
-        <button className="btn-primary" onClick={openCreateModal}>+ Add User</button>
+        <button className="btn-primary" style={{ width: 'auto' }} onClick={openCreateModal}>+ Add User</button>
+      </div>
+
+      <div className="filters-container">
+        <div className="filters-bar">
+          <input
+            type="text"
+            name="search"
+            placeholder="Search by name or email"
+            value={filters.search}
+            onChange={handleFilterChange}
+            className="form-input filter-input"
+          />
+          <select
+            name="role"
+            value={filters.role}
+            onChange={handleFilterChange}
+            className="form-input filter-input"
+          >
+            <option value="">All Roles</option>
+            <option value="Fleet Manager">Fleet Manager</option>
+            <option value="Dispatcher">Dispatcher</option>
+            <option value="Safety Officer">Safety Officer</option>
+            <option value="Financial Analyst">Financial Analyst</option>
+          </select>
+          <select
+            name="status"
+            value={filters.status}
+            onChange={handleFilterChange}
+            className="form-input filter-input"
+          >
+            <option value="">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+          {(filters.search || filters.role || filters.status) && (
+            <button onClick={handleClearFilters} className="btn-outline">
+              ✕ Clear Filters
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="card">
@@ -170,7 +233,7 @@ const UserManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map(user => (
+              {filteredUsers.map(user => (
                 <tr key={user._id}>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
@@ -199,7 +262,7 @@ const UserManagement = () => {
                   </td>
                 </tr>
               ))}
-              {users.length === 0 && !loading && (
+              {filteredUsers.length === 0 && !loading && (
                 <tr>
                   <td colSpan="6" style={{ textAlign: 'center', padding: '2rem' }}>No users found.</td>
                 </tr>

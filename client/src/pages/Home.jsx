@@ -127,7 +127,7 @@ const Home = () => {
       <header className="home-header">
         <div className="home-nav-container">
           <div className="home-logo">
-            <Layers className="logo-icon" size={24} />
+            <img src="/favicon.svg" alt="TransitOps Logo" style={{ width: '24px', height: '24px' }} />
             <span>TransitOps</span>
           </div>
           <nav className="home-nav">
@@ -183,10 +183,7 @@ const Home = () => {
             </a>
           </div>
 
-          <div className="hackathon-tag">
-            <span>Hackathon Built</span> • <span>8-Hour Challenge Target</span>
           </div>
-        </div>
 
         {/* Floating Mockup Display */}
         <div className="hero-mockup-container">
@@ -739,13 +736,12 @@ const Home = () => {
         <div className="footer-container">
           <div className="footer-brand">
             <div className="home-logo">
-              <Layers className="logo-icon" size={20} />
+              <img src="/favicon.svg" alt="TransitOps Logo" style={{ width: '24px', height: '24px' }} />
               <span>TransitOps</span>
             </div>
             <p>Digitizing corporate logistics and vehicle compliance.</p>
           </div>
           <div className="footer-meta">
-            <span>Hackathon Duration: 8 Hours Target</span>
             <span>Created for Transit Operations Excellence</span>
           </div>
         </div>

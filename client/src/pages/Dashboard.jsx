@@ -6,6 +6,7 @@ import RevenueExpenseChart from '../components/Dashboard/Charts/RevenueExpenseCh
 import VehicleTypeChart from '../components/Dashboard/Charts/VehicleTypeChart';
 import FleetUtilizationChart from '../components/Dashboard/Charts/FleetUtilizationChart';
 import Alerts from '../components/Dashboard/Alerts';
+import { Truck, CheckCircle, Wrench, Route, Clock, Users, Activity, Map } from 'lucide-react';
 import { getDashboardKPIs } from '../services/dashboardApi';
 import { getChartData } from '../services/analyticsApi';
 import './Dashboard.css';
@@ -115,34 +116,38 @@ const Dashboard = () => {
 
       {kpis && (
         <div className="kpi-grid">
-          <KPICard title="Active Vehicles" value={kpis.activeVehicles} color="#3b82f6" icon="🚚" />
-          <KPICard title="Available Vehicles" value={kpis.availableVehicles} color="#22c55e" icon="✅" />
-          <KPICard title="Vehicles in Shop" value={kpis.vehiclesInShop} color="#ef4444" icon="🔧" />
-          <KPICard title="Active Trips" value={kpis.activeTrips} color="#8b5cf6" icon="🛣️" />
-          <KPICard title="Pending Trips" value={kpis.pendingTrips} color="#f59e0b" icon="⏳" />
-          <KPICard title="Drivers on Duty" value={kpis.driversOnDuty} color="#14b8a6" icon="👷" />
-          <KPICard title="Fleet Utilization" value={`${kpis.fleetUtilization}%`} color="#6366f1" icon="📊" />
+          <KPICard title="Active Vehicles" value={kpis.activeVehicles} icon={<Truck size={20} />} />
+          <KPICard title="Available Vehicles" value={kpis.availableVehicles} icon={<CheckCircle size={20} />} />
+          <KPICard title="Vehicles in Shop" value={kpis.vehiclesInShop} icon={<Wrench size={20} />} />
+          <KPICard title="Vehicles On Trip" value={kpis.onTripVehicles} icon={<Map size={20} />} />
+          <KPICard title="Active Trips" value={kpis.activeTrips} icon={<Route size={20} />} />
+          <KPICard title="Pending Trips" value={kpis.pendingTrips} icon={<Clock size={20} />} />
+          <KPICard title="Drivers on Duty" value={kpis.driversOnDuty} icon={<Users size={20} />} />
+          <KPICard title="Fleet Utilization" value={`${kpis.fleetUtilization}%`} icon={<Activity size={20} />} />
         </div>
       )}
 
       <div className="dashboard-main-grid">
-        <div className="charts-column">
-          <div className="charts-row">
-            {kpis && <FleetUtilizationChart utilization={kpis.fleetUtilization} />}
-            {chartData && <TripStatusChart data={chartData.tripStatus} />}
-          </div>
-          <div className="charts-row">
-            {chartData && <FuelCostChart data={chartData.fuelTrend} />}
-            {chartData && <RevenueExpenseChart data={chartData.revenueVsExpense} />}
-          </div>
-          <div className="charts-row">
-             {chartData && <VehicleTypeChart data={chartData.vehicleType} />}
-          </div>
+        <div className="grid-item">
+          {kpis && <FleetUtilizationChart utilization={kpis.fleetUtilization} />}
+        </div>
+        <div className="grid-item">
+          {chartData && <TripStatusChart data={chartData.tripStatus} />}
         </div>
         
-        <div className="sidebar-column">
-          <Alerts />
-          {/* Can add Recent Trips table here as per wireframe */}
+        <div className="grid-item alerts-sidebar" style={{ gridRow: 'span 2' }}>
+          <Alerts alerts={kpis?.alerts || []} />
+        </div>
+
+        <div className="grid-item">
+          {chartData && <FuelCostChart data={chartData.fuelTrend} />}
+        </div>
+        <div className="grid-item">
+          {chartData && <RevenueExpenseChart data={chartData.revenueVsExpense} />}
+        </div>
+
+        <div className="grid-item" style={{ gridColumn: 'span 3' }}>
+          {chartData && <VehicleTypeChart data={chartData.vehicleType} />}
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 const Vehicle = require('../models/Vehicle');
 const Trip = require('../models/Trip');
 const Driver = require('../models/Driver');
+const Maintenance = require('../models/Maintenance');
 
 const getDashboardKPIs = async (filters = {}) => {
   try {
@@ -55,6 +56,58 @@ const getDashboardKPIs = async (filters = {}) => {
       fleetUtilization = Math.round((onTripVehicles / activeVehicles) * 100);
     }
 
+    // Generate alerts
+    const alerts = [];
+
+    // 1. License Expiry (within 30 days)
+    const thirtyDaysFromNow = new Date();
+    thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
+    const driversExpiring = await Driver.find({
+      licenseExpiry: { $lte: thirtyDaysFromNow }
+    }).lean();
+    
+    driversExpiring.forEach(driver => {
+      const diffTime = new Date(driver.licenseExpiry) - new Date();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      let message;
+      if (diffDays < 0) {
+        message = `${driver.name}: License expired ${Math.abs(diffDays)} days ago`;
+      } else if (diffDays === 0) {
+        message = `${driver.name}: License expires today`;
+      } else {
+        message = `${driver.name}: License expires in ${diffDays} days`;
+      }
+      alerts.push({ id: `driver-${driver._id}`, type: 'warning', message });
+    });
+
+    // 2. Maintenance Due (Active and scheduled within 7 days or overdue)
+    const sevenDaysFromNow = new Date();
+    sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7);
+    const maintenancesDue = await Maintenance.find({
+      status: 'Active',
+      scheduledDate: { $lte: sevenDaysFromNow }
+    }).populate('vehicle', 'registrationNumber').lean();
+    
+    maintenancesDue.forEach(maint => {
+      const diffTime = new Date(maint.scheduledDate) - new Date();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      let message;
+      const regNo = maint.vehicle ? maint.vehicle.registrationNumber : 'Unknown Vehicle';
+      if (diffDays < 0) {
+        message = `Vehicle ${regNo}: Maintenance overdue by ${Math.abs(diffDays)} days`;
+      } else if (diffDays === 0) {
+        message = `Vehicle ${regNo}: Maintenance Due Today`;
+      } else {
+        message = `Vehicle ${regNo}: Maintenance Due in ${diffDays} days`;
+      }
+      alerts.push({ id: `maint-${maint._id}`, type: 'danger', message });
+    });
+
+    // 3. Vehicles in Shop
+    if (vehiclesInShop > 0) {
+      alerts.push({ id: 'vehicles-in-shop', type: 'info', message: `${vehiclesInShop} Vehicle${vehiclesInShop > 1 ? 's' : ''} currently In Shop` });
+    }
+
     return {
       totalVehicles,
       activeVehicles,
@@ -65,7 +118,8 @@ const getDashboardKPIs = async (filters = {}) => {
       pendingTrips,
       driversOnDuty,
       fleetUtilization,
-      filteredVehicleCount
+      filteredVehicleCount,
+      alerts
     };
   } catch (error) {
     throw error;
