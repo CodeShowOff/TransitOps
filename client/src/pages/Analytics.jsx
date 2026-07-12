@@ -7,6 +7,7 @@ import {
   Activity, Wrench, DollarSign, PieChart, Briefcase, 
   Filter
 } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import './Analytics.css';
 
 const Analytics = () => {
@@ -201,6 +202,70 @@ const Analytics = () => {
           </div>
         </div>
       </div>
+
+      {metrics && (
+        <div className="executive-dashboard">
+          <div className="executive-cards">
+            <div className="executive-card border-blue">
+              <div className="card-title">FUEL EFFICIENCY</div>
+              <div className="card-value">{metrics.fuelEfficiency} <span>km/l</span></div>
+            </div>
+            <div className="executive-card border-green">
+              <div className="card-title">FLEET UTILIZATION</div>
+              <div className="card-value">{metrics.fleetUtilization}%</div>
+            </div>
+            <div className="executive-card border-orange">
+              <div className="card-title">OPERATIONAL COST</div>
+              <div className="card-value">{metrics.operationalCost.toLocaleString()}</div>
+            </div>
+            <div className="executive-card border-green">
+              <div className="card-title">VEHICLE ROI</div>
+              <div className="card-value">{metrics.roi}%</div>
+            </div>
+          </div>
+          
+          <div className="roi-formula">
+            ROI = (Revenue - (Maintenance + Fuel)) / Acquisition Cost
+          </div>
+
+          <div className="dashboard-charts">
+            <div className="chart-container">
+              <div className="chart-title">MONTHLY REVENUE</div>
+              <div className="chart-wrapper">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={metrics.monthlyRevenue || []} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.1)" />
+                    <XAxis dataKey="month" stroke="#a1a1aa" tick={{fill: '#a1a1aa'}} axisLine={false} tickLine={false} />
+                    <YAxis stroke="#a1a1aa" tick={{fill: '#a1a1aa'}} axisLine={false} tickLine={false} tickFormatter={(value) => `₹${value/1000}k`} />
+                    <Tooltip cursor={{fill: 'rgba(255,255,255,0.05)'}} contentStyle={{backgroundColor: '#121316', border: '1px solid rgba(255,255,255,0.1)'}} />
+                    <Bar dataKey="revenue" fill="#6096C4" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            <div className="chart-container">
+              <div className="chart-title">TOP COSTLIEST VEHICLES</div>
+              <div className="chart-wrapper">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={metrics.topCostliestVehicles || []} layout="vertical" margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="rgba(255,255,255,0.1)" />
+                    <XAxis type="number" stroke="#a1a1aa" tick={{fill: '#a1a1aa'}} axisLine={false} tickLine={false} tickFormatter={(value) => `₹${value/1000}k`} />
+                    <YAxis dataKey="vehicle" type="category" stroke="#a1a1aa" tick={{fill: '#a1a1aa'}} axisLine={false} tickLine={false} />
+                    <Tooltip cursor={{fill: 'rgba(255,255,255,0.05)'}} contentStyle={{backgroundColor: '#121316', border: '1px solid rgba(255,255,255,0.1)'}} />
+                    <Bar dataKey="cost" barSize={20} radius={[0, 4, 4, 0]}>
+                      {
+                        (metrics.topCostliestVehicles || []).map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={index === 0 ? '#ff8a8a' : index === 1 ? '#d97706' : '#6096C4'} />
+                        ))
+                      }
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {metrics && (
         <div className="metrics-summary">

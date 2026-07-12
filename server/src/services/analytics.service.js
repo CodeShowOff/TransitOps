@@ -154,6 +154,65 @@ const getAnalyticsMetrics = async (filters = {}) => {
       roi = Number(((profit / acquisitionCost) * 100).toFixed(2));
     }
 
+    // --- Monthly Revenue ---
+    const monthlyRevenueMatch = { ...tripMatch };
+    const monthlyRevenueRes = await Trip.aggregate([
+      { $match: monthlyRevenueMatch },
+      {
+        $group: {
+          _id: { $month: '$completedDate' },
+          revenue: { $sum: '$revenue' }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ]);
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthlyRevenue = monthlyRevenueRes.map(item => ({
+      month: monthNames[item._id - 1] || 'Unknown',
+      revenue: item.revenue
+    }));
+
+    // --- Top Costliest Vehicles ---
+    const topCostliestMatch = vehicleQuery;
+    const vehicleCosts = await Vehicle.aggregate([
+      { $match: topCostliestMatch },
+      {
+        $lookup: {
+          from: 'fuellogs',
+          localField: '_id',
+          foreignField: 'vehicle',
+          as: 'fuels'
+        }
+      },
+      {
+        $lookup: {
+          from: 'expenses',
+          localField: '_id',
+          foreignField: 'vehicle',
+          as: 'expenses'
+        }
+      },
+      {
+        $project: {
+          registrationNumber: 1,
+          totalFuelCost: { $sum: '$fuels.cost' },
+          totalExpenseCost: { $sum: '$expenses.amount' }
+        }
+      },
+      {
+        $project: {
+          registrationNumber: 1,
+          totalCost: { $add: ['$totalFuelCost', '$totalExpenseCost'] }
+        }
+      },
+      { $sort: { totalCost: -1 } },
+      { $limit: 3 } // Shows 3 in the UI
+    ]);
+    const topCostliestVehicles = vehicleCosts.map(v => ({
+      vehicle: v.registrationNumber,
+      cost: v.totalCost
+    }));
+
     return {
       fuelEfficiency,
       fuelCost,
@@ -163,7 +222,9 @@ const getAnalyticsMetrics = async (filters = {}) => {
       revenue,
       profit,
       fleetUtilization,
-      roi
+      roi,
+      monthlyRevenue,
+      topCostliestVehicles
     };
   } catch (error) {
     throw error;
