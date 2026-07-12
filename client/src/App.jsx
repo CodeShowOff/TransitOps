@@ -5,6 +5,8 @@ import DashboardLayout from './components/Layout/DashboardLayout';
 import Login from './pages/Auth/Login';
 import UserManagement from './pages/Settings/UserManagement';
 import Home from './pages/Home';
+import Fleet from './pages/Fleet';
+import Drivers from './pages/Drivers';
 
 // Placeholder for other routes
 const Placeholder = ({ title }) => (
@@ -21,11 +23,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          
           <Route element={<DashboardLayout />}>
             <Route path="/dashboard" element={<Placeholder title="Dashboard" />} />
-            <Route path="/fleet" element={<Placeholder title="Fleet" />} />
-            <Route path="/drivers" element={<Placeholder title="Drivers" />} />
+            <Route path="/fleet" element={<Fleet />} />
+            <Route path="/drivers" element={<Drivers />} />
             <Route path="/trips" element={<Placeholder title="Trips" />} />
             <Route path="/maintenance" element={<Placeholder title="Maintenance" />} />
             <Route path="/fuel" element={<Placeholder title="Fuel & Expenses" />} />

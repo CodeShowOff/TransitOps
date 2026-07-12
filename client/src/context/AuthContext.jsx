@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
 export const AuthContext = createContext();
@@ -42,9 +42,15 @@ export const AuthProvider = ({ children }) => {
     delete axios.defaults.headers.common['Authorization'];
   };
 
+  const hasRole = (requiredRole) => {
+    return role === requiredRole;
+  };
+
   return (
-    <AuthContext.Provider value={{ user, token, role, isAuthenticated: !!token, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, token, role, isAuthenticated: !!token, login, logout, loading, hasRole }}>
       {!loading && children}
     </AuthContext.Provider>
   );
 };
+
+export const useAuth = () => useContext(AuthContext);
