@@ -92,6 +92,10 @@ const TripForm = ({ onTripCreated }) => {
           <div className="lifecycle-step-dot"></div>
           <span>Completed</span>
         </div>
+        <div className="lifecycle-step">
+          <div className="lifecycle-step-dot"></div>
+          <span>Cancelled</span>
+        </div>
       </div>
 
       {error && <div className="error-message">{error}</div>}

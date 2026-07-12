@@ -16,6 +16,7 @@ const RecentTrips = ({ trips }) => {
       case 'On Trip': return '#3b82f6';
       case 'Completed': return '#65a30d';
       case 'Dispatched': return '#0ea5e9';
+      case 'Cancelled': return '#ef4444';
       case 'Draft': return '#71717a';
       default: return '#71717a';
     }
