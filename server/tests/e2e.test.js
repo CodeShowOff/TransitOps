@@ -100,7 +100,7 @@ describe('End-to-End Business Flow & Financial Accuracy', () => {
     // Step 5: Complete the Trip & Auto-generate Fuel Log
     const actualDistance = 360;
     const fuelConsumed = 50; // Liters
-    const fuelPrice = 4; // Cost per liter ($200 total)
+    const fuelPrice = 4; // Cost per liter (₹200 total)
 
     res = await request(app)
       .patch(`/api/trips/${tripId}/complete`)

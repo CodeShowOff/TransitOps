@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import './Settings.css';
 
 const Settings = () => {
   const { user } = useAuth();
+
+  const [depotName, setDepotName] = useState('Gandhinagar Depot GJ4');
+  const [currency, setCurrency] = useState('INR (Rs)');
+  const [distanceUnit, setDistanceUnit] = useState('Kilometers');
+
+  const handleSave = () => {
+    console.log('Saved settings:', { depotName, currency, distanceUnit });
+  };
+
+  const rbacData = [
+    { role: 'Fleet Manager', fleet: '✓', drivers: '✓', trips: '✓', fuel: '✓', analytics: '✓' },
+    { role: 'Dispatcher', fleet: 'View', drivers: 'View', trips: '✓', fuel: '-', analytics: '-' },
+    { role: 'Safety Officer', fleet: 'View', drivers: '✓', trips: 'View', fuel: '-', analytics: '-' },
+    { role: 'Financial Analyst', fleet: 'View', drivers: '-', trips: 'View', fuel: '✓', analytics: '✓' }
+  ];
 
   return (
     <div className="page-container">
@@ -55,7 +70,81 @@ const Settings = () => {
           </div>
         </div>
 
-        {/* Section 3: Preferences */}
+        {/* Bottom Row: General & RBAC */}
+        <div className="settings-bottom-row">
+          {/* Section 4: General Operations Settings */}
+          <div className="settings-section">
+            <h3>General Operations</h3>
+            <div className="settings-card form-layout">
+              <div className="form-group">
+                <label>DEPOT NAME</label>
+                <input 
+                  type="text" 
+                  className="form-input" 
+                  value={depotName} 
+                  onChange={(e) => setDepotName(e.target.value)} 
+                />
+              </div>
+              
+              <div className="form-group">
+                <label>CURRENCY</label>
+                <input 
+                  type="text" 
+                  className="form-input" 
+                  value={currency} 
+                  onChange={(e) => setCurrency(e.target.value)} 
+                />
+              </div>
+              
+              <div className="form-group">
+                <label>DISTANCE UNIT</label>
+                <input 
+                  type="text" 
+                  className="form-input" 
+                  value={distanceUnit} 
+                  onChange={(e) => setDistanceUnit(e.target.value)} 
+                />
+              </div>
+
+              <button className="save-btn" onClick={handleSave}>Save changes</button>
+            </div>
+          </div>
+
+          {/* Section 5: Role-Based Access (RBAC) */}
+          <div className="settings-section">
+            <h3>Role-Based Access (RBAC)</h3>
+            <div className="settings-card rbac-card">
+              <div className="rbac-table-container">
+                <table className="rbac-table">
+                  <thead>
+                    <tr>
+                      <th>ROLE</th>
+                      <th>FLEET</th>
+                      <th>DRIVERS</th>
+                      <th>TRIPS</th>
+                      <th>FUEL/EXP.</th>
+                      <th>ANALYTICS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rbacData.map((row, index) => (
+                      <tr key={index}>
+                        <td>{row.role}</td>
+                        <td>{row.fleet}</td>
+                        <td>{row.drivers}</td>
+                        <td>{row.trips}</td>
+                        <td>{row.fuel}</td>
+                        <td>{row.analytics}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Section 3: Preferences (Moved to bottom) */}
         <div className="settings-section">
           <h3>Preferences</h3>
           <div className="settings-card">

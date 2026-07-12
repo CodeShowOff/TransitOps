@@ -105,12 +105,12 @@ const Analytics = () => {
     drawRow('Metric', 'Value', true);
     drawRow('Fuel Efficiency', `${metrics.fuelEfficiency} km/L`);
     drawRow('Fleet Utilization', `${metrics.fleetUtilization}%`);
-    drawRow('Total Fuel Cost', `$${metrics.fuelCost.toLocaleString()}`);
-    drawRow('Maintenance Cost', `$${metrics.maintenanceCost.toLocaleString()}`);
-    drawRow('Other Expenses', `$${metrics.expense.toLocaleString()}`);
-    drawRow('Operational Cost', `$${metrics.operationalCost.toLocaleString()}`);
-    drawRow('Total Revenue', `$${metrics.revenue.toLocaleString()}`);
-    drawRow('Net Profit', `$${metrics.profit.toLocaleString()}`);
+    drawRow('Total Fuel Cost', `₹${metrics.fuelCost.toLocaleString()}`);
+    drawRow('Maintenance Cost', `₹${metrics.maintenanceCost.toLocaleString()}`);
+    drawRow('Other Expenses', `₹${metrics.expense.toLocaleString()}`);
+    drawRow('Operational Cost', `₹${metrics.operationalCost.toLocaleString()}`);
+    drawRow('Total Revenue', `₹${metrics.revenue.toLocaleString()}`);
+    drawRow('Net Profit', `₹${metrics.profit.toLocaleString()}`);
     drawRow('Return on Investment (ROI)', metrics.roi);
 
     doc.save('transitops-analytics-report.pdf');
@@ -120,12 +120,12 @@ const Analytics = () => {
     ['Metric', 'Value'],
     ['Fuel Efficiency (km/L)', metrics.fuelEfficiency],
     ['Fleet Utilization (%)', metrics.fleetUtilization],
-    ['Total Fuel Cost ($)', metrics.fuelCost],
-    ['Maintenance Cost ($)', metrics.maintenanceCost],
-    ['Other Expenses ($)', metrics.expense],
-    ['Operational Cost ($)', metrics.operationalCost],
-    ['Total Revenue ($)', metrics.revenue],
-    ['Net Profit ($)', metrics.profit],
+    ['Total Fuel Cost (₹)', metrics.fuelCost],
+    ['Maintenance Cost (₹)', metrics.maintenanceCost],
+    ['Other Expenses (₹)', metrics.expense],
+    ['Operational Cost (₹)', metrics.operationalCost],
+    ['Total Revenue (₹)', metrics.revenue],
+    ['Net Profit (₹)', metrics.profit],
     ['ROI', metrics.roi],
   ] : [];
 
@@ -226,49 +226,49 @@ const Analytics = () => {
               <div className="metric-icon-wrap"><DollarSign size={20} /></div>
               <div className="metric-content">
                 <h4>Total Fuel Cost</h4>
-                <p className="val">${metrics.fuelCost.toLocaleString()}</p>
+                <p className="val">₹{metrics.fuelCost.toLocaleString()}</p>
               </div>
             </div>
             <div className="metric-box">
               <div className="metric-icon-wrap"><Wrench size={20} /></div>
               <div className="metric-content">
                 <h4>Maintenance Cost</h4>
-                <p className="val">${metrics.maintenanceCost.toLocaleString()}</p>
+                <p className="val">₹{metrics.maintenanceCost.toLocaleString()}</p>
               </div>
             </div>
             <div className="metric-box">
               <div className="metric-icon-wrap"><Briefcase size={20} /></div>
               <div className="metric-content">
                 <h4>Other Expenses</h4>
-                <p className="val">${metrics.expense.toLocaleString()}</p>
+                <p className="val">₹{metrics.expense.toLocaleString()}</p>
               </div>
             </div>
             <div className="metric-box">
               <div className="metric-icon-wrap"><PieChart size={20} /></div>
               <div className="metric-content">
                 <h4>Operational Cost</h4>
-                <p className="val">${metrics.operationalCost.toLocaleString()}</p>
+                <p className="val">₹{metrics.operationalCost.toLocaleString()}</p>
               </div>
             </div>
             <div className="metric-box highlight-success">
               <div className="metric-icon-wrap"><TrendingUp size={20} /></div>
               <div className="metric-content">
                 <h4>Total Revenue</h4>
-                <p className="val">${metrics.revenue.toLocaleString()}</p>
+                <p className="val">₹{metrics.revenue.toLocaleString()}</p>
               </div>
             </div>
             <div className="metric-box highlight-primary">
               <div className="metric-icon-wrap"><DollarSign size={20} /></div>
               <div className="metric-content">
                 <h4>Net Profit</h4>
-                <p className="val">${metrics.profit.toLocaleString()}</p>
+                <p className="val">₹{metrics.profit.toLocaleString()}</p>
               </div>
             </div>
             <div className="metric-box highlight-info">
               <div className="metric-icon-wrap"><TrendingUp size={20} /></div>
               <div className="metric-content">
-                <h4>Return on Investment</h4>
-                <p className="val">{metrics.roi}</p>
+                <h4>Return On Investment</h4>
+                <p className="val">{metrics.roi}%</p>
               </div>
             </div>
           </div>

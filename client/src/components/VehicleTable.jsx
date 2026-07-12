@@ -49,7 +49,7 @@ const VehicleTable = ({ vehicles, onView, onEdit, onDelete }) => {
               <td>{vehicle.type}</td>
               <td>{vehicle.maxLoadCapacity} kg</td>
               <td>{vehicle.odometer} km</td>
-              <td>${vehicle.acquisitionCost ? vehicle.acquisitionCost.toLocaleString() : '0'}</td>
+              <td>₹{vehicle.acquisitionCost ? vehicle.acquisitionCost.toLocaleString() : '0'}</td>
               <td>
                 <StatusBadge status={vehicle.status} />
               </td>

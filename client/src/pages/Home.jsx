@@ -588,7 +588,7 @@ const Home = () => {
               {simStep === 9 && (
                 <div className="sim-step-info">
                   <h3>Reports & Fuel Efficiency Dashboard</h3>
-                  <p>Calculates cumulative metrics. Fuel Efficiency: <code>{(150 / fuelConsumed).toFixed(2)} km/L</code>. Total Expense = Fuel cost ($3.50/L) + maintenance. ROI is dynamically adjusted.</p>
+                  <p>Calculates cumulative metrics. Fuel Efficiency: <code>{(150 / fuelConsumed).toFixed(2)} km/L</code>. Total Expense = Fuel cost (₹3.50/L) + maintenance. ROI is dynamically adjusted.</p>
                   <div className="sim-action-box">
                     <button className="btn-sim-action btn-secondary-sim" onClick={resetSimulator}>
                       Restart Demo Walkthrough <RefreshCw size={14} />
@@ -657,7 +657,7 @@ const Home = () => {
                     <Wrench size={14} />
                   </div>
                   <div className="db-row"><span>Activity:</span> <strong>Oil Change</strong></div>
-                  <div className="db-row"><span>Cost:</span> <strong>$120.00</strong></div>
+                  <div className="db-row"><span>Cost:</span> <strong>₹120.00</strong></div>
                   <div className="db-row"><span>Lockout Status:</span> <strong className="text-red">IN SHOP</strong></div>
                 </div>
               </div>
@@ -672,11 +672,11 @@ const Home = () => {
                   </div>
                   <div className="metric-pill">
                     <span className="pill-lbl">Maintenance Cost</span>
-                    <strong>$120.00</strong>
+                    <strong>₹120.00</strong>
                   </div>
                   <div className="metric-pill">
                     <span className="pill-lbl">Fuel Expense</span>
-                    <strong>${(fuelConsumed * 3.5).toFixed(2)}</strong>
+                    <strong>₹{(fuelConsumed * 3.5).toFixed(2)}</strong>
                   </div>
                   <div className="metric-pill">
                     <span className="pill-lbl">Estimated ROI</span>

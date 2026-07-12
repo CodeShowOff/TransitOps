@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest --runInBand --detectOpenHandles",
     "dev": "nodemon src/server.js",
-    "seed": "node seed/seedAdmin.js"
+    "seed": "node seed/seedAdmin.js",
+    "seed:all": "node seed/seedAll.js"
   },
   "keywords": [],
   "author": "",

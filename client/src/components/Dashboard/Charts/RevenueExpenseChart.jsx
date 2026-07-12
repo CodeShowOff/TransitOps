@@ -19,7 +19,7 @@ const RevenueExpenseChart = ({ data }) => {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
-            <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
+            <Tooltip formatter={(value) => `₹${value.toLocaleString()}`} />
             <Legend />
             <Bar dataKey="value" fill="#3b82f6" name="Amount" radius={[4, 4, 0, 0]} />
           </BarChart>

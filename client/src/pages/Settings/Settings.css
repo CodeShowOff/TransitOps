@@ -1,8 +1,36 @@
+.settings-container {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 4rem;
+  margin-top: 1rem;
+}
+
+.section-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary, #a1a1aa);
+  margin-bottom: 1.5rem;
+}
+
 .settings-layout {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  max-width: 800px;
+  gap: 2rem;
+  max-width: 100%;
+}
+
+.settings-bottom-row {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 2rem;
+}
+
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .settings-section h3 {
@@ -19,6 +47,7 @@
   border-radius: 6px;
   border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
   padding: 1.25rem 1.5rem;
+  flex: 1;
 }
 
 .settings-row {
@@ -89,4 +118,94 @@
   padding: 0.15rem 0.35rem;
   border-radius: 4px;
   font-weight: 600;
+}
+
+/* Form Styles */
+.form-layout {
+  max-width: 400px;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary, #a1a1aa);
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.15));
+  color: var(--text-primary, #ffffff);
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #60a5fa;
+}
+
+.save-btn {
+  background-color: #7baee0;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: opacity 0.2s;
+}
+
+.save-btn:hover {
+  opacity: 0.9;
+}
+
+/* RBAC Table Styles */
+.rbac-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.rbac-table-container {
+  overflow-x: auto;
+}
+
+.rbac-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.rbac-table th {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary, #a1a1aa);
+  padding: 1.25rem 1.5rem;
+  background-color: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+}
+
+.rbac-table td {
+  padding: 1.25rem 1.5rem;
+  font-size: 0.875rem;
+  color: var(--text-primary, #e4e4e7);
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
+}
+
+.rbac-table tr:last-child td {
+  border-bottom: none;
 }

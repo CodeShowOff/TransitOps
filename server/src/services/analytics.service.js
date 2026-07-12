@@ -151,7 +151,7 @@ const getAnalyticsMetrics = async (filters = {}) => {
     const acquisitionCost = vehRes.length > 0 ? vehRes[0].totalAcquisition : 0;
     let roi = 0;
     if (acquisitionCost > 0) {
-      roi = Number(((revenue - fuelCost - maintenanceCost) / acquisitionCost).toFixed(2));
+      roi = Number(((profit / acquisitionCost) * 100).toFixed(2));
     }
 
     return {
